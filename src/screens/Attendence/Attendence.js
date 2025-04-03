@@ -2,7 +2,7 @@ import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-nati
 import React from 'react';
 import {appColors} from '../../utils/color';
 
-const Attendence = () => {
+const Attendence = ({navigation}) => {
   return (
     <SafeAreaView style={{flex:1}}>
       <View
@@ -18,7 +18,7 @@ const Attendence = () => {
                 </Text> */}
         <Text style={styles.headerText}>Attendence</Text>
       </View>
-      <TouchableOpacity style={styles.classStyle}>
+      <TouchableOpacity style={styles.classStyle} onPress={()=>navigation.navigate("StudentList")}>
           <Text style={styles.textStyle}>Class 1</Text>
         </TouchableOpacity>
     </SafeAreaView>
