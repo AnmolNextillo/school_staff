@@ -54,20 +54,24 @@ const Test = () => {
         <ScrollView style={{padding: 16}}>
           {tests != null &&
             tests.map((item, index) => (
-              <TouchableOpacity style={styles.testList} onPress={()=>navigation.navigate("TestDetail",{data:item})}>
-              <Text >
-                {index + 1}. {item.title} {'(' + item.subjectId.name + ')'}
-              </Text>
-              <Text style={{marginTop:8,color:appColors.grey}}>Date : {item.date}</Text>
+              <TouchableOpacity
+                style={styles.testList}
+                onPress={() => navigation.navigate('TestDetail', {data: item})}>
+                <Text>
+                  {index + 1}. {item.title} {'(' + item.subjectId.name + ')'}
+                </Text>
+                <Text style={{marginTop: 8, color: appColors.grey}}>
+                  Date : {item.date}
+                </Text>
               </TouchableOpacity>
             ))}
         </ScrollView>
-          {/* Floating Action Button */}
-          <TouchableOpacity 
-          style={styles.fab} 
-          onPress={() => navigation.navigate("AddTest")}> 
+        {/* Floating Action Button */}
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => navigation.navigate('AddTest')}>
           {/* <Text style={{color:appColors.white,fontSize:36}}>+</Text> */}
-          <PlusIcon/>
+          <PlusIcon />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -106,6 +110,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 4,
     elevation: 5,
-    padding:16
+    padding: 16,
   },
 });

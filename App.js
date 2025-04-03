@@ -8,6 +8,8 @@ import { store } from './src/redux/store';
 import BottomBar from './src/navigations/BottomBar';
 import AddTest from './src/screens/AddTest';
 import StudentList from './src/screens/StudentList';
+import HomeWorkList from './src/screens/HomeworkList';
+import AddHomework from './src/screens/AddHomework';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +30,8 @@ function App() {
         <Stack.Screen name="BottomBar" component={BottomBar} options={{title: 'BottomBar'}}/>
         <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
         <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
+        <Stack.Screen name="HomeWorkList" component={HomeWorkList} options={{title: 'HomeWorkList'}}/>
+        <Stack.Screen name="AddHomework" component={AddHomework} options={{title: 'AddHomework'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

@@ -27,8 +27,7 @@ import OnlinePaymentIcon from '../../assets/svg/OnlinePaymentIcon';
 import {useNavigation} from '@react-navigation/core';
 import {getImage} from '../../utils/getImages';
 
-const Home = () => {
-  const navigation = useNavigation();
+const Home = ({navigation}) => {
 
   // const dispatch = useDispatch()
 
@@ -81,7 +80,7 @@ const Home = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('Classmate')}>
+              onPress={() => navigation.navigate('HomeWorkList')}>
               <HomeworkIcon />
               <Text style={styles.cardNameStyle}>HomeWork</Text>
             </TouchableOpacity>
