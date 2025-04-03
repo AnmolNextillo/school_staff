@@ -53,20 +53,20 @@ const Login = ({navigation}) => {
     // setIsSplash(true);
   }, []);
 
-  const onLoginClick = async () => {
-    // if (email.length == 0) {
-    //   handleShowMessage('Please enter valid number', 'danger');
-    // } else {
-    //   setIsLoading(true);
-    //   const payload = {
-    //     email: email,
-    //     password: password,
-    //   };
+  // const onLoginClick = async () => {
+  //   if (email.length == 0) {
+  //     handleShowMessage('Please enter valid number', 'danger');
+  //   } else {
+  //     setIsLoading(true);
+  //     const payload = {
+  //       email: email,
+  //       password: password,
+  //     };
 
-    //   console.log('Payload ===> ', payload);
-    //   dispatch(hitLogin(payload));
-    // }
-  };
+  //     console.log('Payload ===> ', payload);
+  //     dispatch(hitLogin(payload));
+  //   }
+  // };
 
   // useEffect(() => {
   //   console.log('loginResponse ===> ', loginResponse);
@@ -133,7 +133,7 @@ const Login = ({navigation}) => {
           />
 
           <View style={styles.formAreaStyle}>
-            <Text style={styles.headerStyle}> Login </Text>
+            <Text style={styles.headerStyle}>Staff Login</Text>
 
             <Text style={styles.titleStyle}>Email</Text>
             <View style={styles.inputContainer}>
@@ -165,7 +165,9 @@ const Login = ({navigation}) => {
 
             <TouchableOpacity
               style={styles.loginButtonViewStyle}
-              onPress={() => onLoginClick()}>
+              onPress={() => navigation.navigate('BottomBar')
+              // onLoginClick()
+            }>
               {!isLoading ? (
                 <Text style={styles.loginButtonStyle}>Login</Text>
               ) : (

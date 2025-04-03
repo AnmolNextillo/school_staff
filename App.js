@@ -1,10 +1,11 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {SafeAreaView, StyleSheet, useColorScheme, View} from 'react-native';
+import { StyleSheet, useColorScheme} from 'react-native';
 import Login from './src/screens/Login';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
+import BottomBar from './src/navigations/BottomBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,11 +22,8 @@ function App() {
       <Stack.Navigator
         screenOptions={{headerShown: false}}
         initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{title: 'Login'}}
-        />
+        <Stack.Screen name="Login" component={Login} options={{title: 'Login'}}/>
+        <Stack.Screen name="BottomBar" component={BottomBar} options={{title: 'BottomBar'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
