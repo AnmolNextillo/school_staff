@@ -6,6 +6,8 @@ import Login from './src/screens/Login';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import BottomBar from './src/navigations/BottomBar';
+import AddTest from './src/screens/AddTest';
+import StudentList from './src/screens/StudentList';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,8 @@ function App() {
         initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} options={{title: 'Login'}}/>
         <Stack.Screen name="BottomBar" component={BottomBar} options={{title: 'BottomBar'}}/>
+        <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
+        <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

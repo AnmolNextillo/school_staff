@@ -1,4 +1,5 @@
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { appColors } from '../../utils/color';
+import {appColors} from '../../utils/color';
 import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
 import AttendenceIcon from '../../assets/svg/AttendenceIcon';
 import ClassmatesIcon from '../../assets/svg/ClassmatesIcon';
@@ -23,14 +24,15 @@ import LeaveDetailIcon from '../../assets/svg/LeaveDetailIcon';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import PaymentHistoryIcon from '../../assets/svg/PaymentHistoryIcon';
 import OnlinePaymentIcon from '../../assets/svg/OnlinePaymentIcon';
-import { useNavigation } from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/core';
+import {getImage} from '../../utils/getImages';
 
 const Home = () => {
   const navigation = useNavigation();
 
   // const dispatch = useDispatch()
 
-  // const responseProfile = useSelector((state) => state.getProfileReducer.data) 
+  // const responseProfile = useSelector((state) => state.getProfileReducer.data)
 
   // const [profileData,setProfileData] = useState(null)
 
@@ -51,15 +53,16 @@ const Home = () => {
         nestedScrollEnabled
         showsVerticalScrollIndicator={false}>
         <View style={styles.headerStyle}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{alignItems: 'center'}}>
             <View style={styles.profileImage}>
-              <HomeProfileIcon style={{ fill: appColors.white }} />
+              <HomeProfileIcon style={{fill: appColors.white}} />
             </View>
             <Text style={styles.userName}>
               Gurmandeep Singh
               {/* {profileData!=null?profileData.name:""} */}
             </Text>
-            <Text style={styles.admissionText}>Class : 1st
+            <Text style={styles.admissionText}>
+              Class : 1st
               {/* {profileData!=null?profileData.classId.name:""} */}
             </Text>
             {/* <Text style={styles.admissionText}>Parent</Text> */}
@@ -68,107 +71,38 @@ const Home = () => {
         <View style={styles.CardTopStyle}>
           <Text style={styles.AcademicText}>Academics</Text>
           <View style={styles.CardStyle}>
-            <TouchableOpacity style={styles.cardBox} onPress={() => navigation.navigate('Attendence')}>
+            <TouchableOpacity
+              style={styles.cardBox}
+              onPress={() => navigation.navigate('Attendence')}>
               <View style={styles.imageBoxStyle}>
-                <AttendenceIcon />
+                <AnnoucementIcon />
               </View>
-
-              <Text style={styles.cardNameStyle}>Attendance</Text>
+              <Text style={styles.cardNameStyle}>Annoucement</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
               onPress={() => navigation.navigate('Classmate')}>
-              <ClassmatesIcon />
-              <Text style={styles.cardNameStyle}>Classmates</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('Subjects')}>
-              <SubjectIcon />
-              <Text style={styles.cardNameStyle}>Subjects</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.CardStyle}>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('Test')}>
-              <TestsIcon />
-              <Text style={styles.cardNameStyle}>Tests</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('TimeTable', { title: "Time Table", from: 0 })}>
-              <TimeTableIcon />
-              <Text style={styles.cardNameStyle}>Time Table</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('HomeWorkList')}>
               <HomeworkIcon />
-              <Text style={styles.cardNameStyle}>Homework</Text>
+              <Text style={styles.cardNameStyle}>HomeWork</Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        <View style={styles.CardTopStyle}>
-          <Text style={styles.AcademicText}>Communication</Text>
           <View style={styles.CardStyle}>
             <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('Conversation')}>
-              <AnnoucementIcon />
-              <Text style={styles.cardNameStyle}>Annoucements</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('EventDetail')}>
+              style={styles.eventsCard}
+              onPress={() => navigation.navigate('Subjects')}>
               <EventIcon />
               <Text style={styles.cardNameStyle}>Events</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('Appointment')}>
-              <AppointmentIcon />
-              <Text style={styles.cardNameStyle}>Apppointment</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.CardTopStyle}>
-          <Text style={styles.AcademicText}>Leave</Text>
-          <View style={styles.CardStyle}>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('ApplyLeave')}>
-              <ApplyLeaveIcon />
-              <Text style={styles.cardNameStyle}>Apply Leave</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cardBox}
-              onPress={() => navigation.navigate('LeaveDetails')}>
-              <LeaveDetailIcon />
-              <Text style={styles.cardNameStyle}>Leave Details</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cardBox} onPress={() => navigation.navigate('TimeTable', { title: "Annual Calendar", from: 1 })}>
-              <AnnualCalenderIcon />
-              <Text style={styles.cardNameStyle}>Annual Calendar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.CardTopStyle}>
-          <Text style={styles.AcademicText}>Fees</Text>
-          <View style={styles.CardStyleLeft}>
-            <TouchableOpacity
-              style={styles.cardBoxLeft}
-              onPress={() => navigation.navigate('PaymentHistory')}>
-              <PaymentHistoryIcon />
-              <Text style={styles.cardNameStyle}>Payment History</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cardBoxLeft}>
-              <OnlinePaymentIcon />
-              <Text style={styles.cardNameStyle}>Online Payment</Text>
+              onPress={() => navigation.navigate('Test')}>
+              <Image
+                source={getImage('booking')}
+                style={styles.imageBoxStyle}
+                resizeMode="contain"
+              />
+              <Text style={styles.cardNameStyle}>Gallery</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -237,7 +171,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: appColors.white,
     marginBottom: 12,
-    width: '30%',
+    width: '100%',
+    paddingHorizontal: 4,
+    paddingVertical: 20,
+    borderRadius: 8,
+    boxShadow: ' -2px 2px 14px 0px rgb(245, 242, 242)',
+  },
+  eventsCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: appColors.white,
+    marginBottom: 12,
+    width: '100%',
     paddingHorizontal: 4,
     paddingVertical: 20,
     borderRadius: 8,
@@ -253,25 +199,19 @@ const styles = StyleSheet.create({
   imageBoxStyle: {
     justifyContent: 'center',
     alignSelf: 'center',
+    height: 40,
+    width: 40,
   },
-  CardStyleLeft: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginBottom: 12,
-    gap: 12,
-    width: '100%',
-    marginBottom: 40
-  },
-  cardBoxLeft: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: appColors.white,
-    marginBottom: 12,
-    width: '31%',
-    paddingHorizontal: 4,
-    paddingVertical: 20,
-    borderRadius: 8,
-    boxShadow: ' -2px 2px 14px 0px rgb(245, 242, 242)',
-    alignSelf: 'flex-start',
-  },
+  // cardBoxLeft: {
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   backgroundColor: appColors.white,
+  //   marginBottom: 12,
+  //   width: '31%',
+  //   paddingHorizontal: 4,
+  //   paddingVertical: 20,
+  //   borderRadius: 8,
+  //   boxShadow: ' -2px 2px 14px 0px rgb(245, 242, 242)',
+  //   alignSelf: 'flex-start',
+  // },
 });
