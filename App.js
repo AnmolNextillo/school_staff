@@ -1,7 +1,7 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, useColorScheme} from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import Login from './src/screens/Login';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
@@ -9,6 +9,7 @@ import BottomBar from './src/navigations/BottomBar';
 import AddTest from './src/screens/AddTest';
 import StudentList from './src/screens/StudentList';
 import Annoucement from './src/screens/Annoucement/Annoucement';
+import AddAnnoucement from './src/screens/AddAnnoucement/AddAnnoucement';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,17 +22,18 @@ function App() {
 
   return (
     <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{headerShown: false}}
-        initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} options={{title: 'Login'}}/>
-        <Stack.Screen name="BottomBar" component={BottomBar} options={{title: 'BottomBar'}}/>
-        <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
-        <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
-        <Stack.Screen name="Annoucement" component={Annoucement} options={{title: 'Annoucement'}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+          <Stack.Screen name="BottomBar" component={BottomBar} options={{ title: 'BottomBar' }} />
+          <Stack.Screen name="AddTest" component={AddTest} options={{ title: 'AddTest' }} />
+          <Stack.Screen name="StudentList" component={StudentList} options={{ title: 'StudentList' }} />
+          <Stack.Screen name="Annoucement" component={Annoucement} options={{ title: 'Annoucement' }} />
+          <Stack.Screen name="AddAnnoucement" component={AddAnnoucement} options={{ title: 'AddAnnoucement' }} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
