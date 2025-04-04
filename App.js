@@ -8,6 +8,7 @@ import { store } from './src/redux/store';
 import BottomBar from './src/navigations/BottomBar';
 import AddTest from './src/screens/AddTest';
 import StudentList from './src/screens/StudentList';
+import Annoucement from './src/screens/Annoucement/Annoucement';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ function App() {
         <Stack.Screen name="BottomBar" component={BottomBar} options={{title: 'BottomBar'}}/>
         <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
         <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
+        <Stack.Screen name="Annoucement" component={Annoucement} options={{title: 'Annoucement'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
