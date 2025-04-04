@@ -15,6 +15,7 @@ const Homework = ({navigation,route}) => {
     Linking.openURL(fileUrl).catch((err) => console.error("Failed to open URL:", err));
   };
 
+  
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1}}>
