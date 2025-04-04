@@ -12,6 +12,7 @@ import HomeWorkList from './src/screens/HomeworkList';
 import AddHomework from './src/screens/AddHomework';
 import Annoucement from './src/screens/Annoucement/Annoucement';
 import AddAnnoucement from './src/screens/AddAnnoucement/AddAnnoucement';
+import TestDetail from './src/screens/TestDetail.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,7 @@ function App() {
         <Stack.Screen name="AddHomework" component={AddHomework} options={{title: 'AddHomework'}}/>
         <Stack.Screen name="Annoucement" component={Annoucement} options={{ title: 'Annoucement' }} />
         <Stack.Screen name="AddAnnoucement" component={AddAnnoucement} options={{ title: 'AddAnnoucement' }} />
+        <Stack.Screen name="TestDetail" component={TestDetail} options={{ title: 'TestDetail' }} />
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

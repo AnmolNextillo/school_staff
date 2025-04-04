@@ -1,10 +1,10 @@
 // src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ApiBaseUrl, classTestsList} from "../utils/Constants";
+import { ApiBaseUrl, logout, profile } from "../utils/Constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const hitTests = createAsyncThunk("hitTests", async (payload) => {
+export const hitProfile = createAsyncThunk("hitProfile", async (payload) => {
   try {
 
     const token = await AsyncStorage.getItem('token');
@@ -14,43 +14,41 @@ export const hitTests = createAsyncThunk("hitTests", async (payload) => {
         Authorization:token
       },
     };
-    const url = ApiBaseUrl + classTestsList;      
-    console.log("URL ====> ",url)
-    const response = await axios.post(url,payload,config);
+    const url = ApiBaseUrl + profile;      
+    const response = await axios.get(url,config);
     console.log("Response ===> ",response.data)
     return response.data;
   } catch (error) {
-    console.log("Error ===> ",error)
     throw error.response.data;
   }
 });
 
-const GetTestsSlice = createSlice({
-  name: "getTestsReducer",
+const GetPRofileSlice = createSlice({
+  name: "getProfileReducer",
 
   initialState: {
     isLoading: false,
     data: null,
   },
   reducers: {
-    clearTests: (state) => {
+    clearProfile: (state) => {
       state.data = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(hitTests.pending, (state) => {
+      .addCase(hitProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(hitTests.fulfilled, (state, action) => {
+      .addCase(hitProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(hitTests.rejected, (state) => {
+      .addCase(hitProfile.rejected, (state) => {
         state.isError = false;
       });
   },
 });
 
-export const { clearTests } = GetTestsSlice.actions;
-export default GetTestsSlice.reducer;
+export const { clearProfile } = GetPRofileSlice.actions;
+export default GetPRofileSlice.reducer;

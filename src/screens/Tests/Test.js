@@ -60,6 +60,7 @@ const Test = () => {
                 <Text>
                   {index + 1}. {item.title} {'(' + item.subjectId.name + ')'}
                 </Text>
+                <Text style={{marginTop:8,fontWeight:'500'}}>Class : {item.classId.name}</Text>
                 <Text style={{marginTop: 8, color: appColors.grey}}>
                   Date : {item.date}
                 </Text>
@@ -94,6 +95,8 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: appColors.white,
     borderRadius: 8,
+    borderWidth:1,
+    borderColor:appColors.primaryColor
   },
   fab: {
     position: 'absolute',

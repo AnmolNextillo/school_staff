@@ -1,10 +1,10 @@
 // src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ApiBaseUrl, classTestsList} from "../utils/Constants";
+import { ApiBaseUrl, logout } from "../utils/Constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const hitTests = createAsyncThunk("hitTests", async (payload) => {
+export const hitLogout = createAsyncThunk("hitLogout", async (payload) => {
   try {
 
     const token = await AsyncStorage.getItem('token');
@@ -14,43 +14,41 @@ export const hitTests = createAsyncThunk("hitTests", async (payload) => {
         Authorization:token
       },
     };
-    const url = ApiBaseUrl + classTestsList;      
-    console.log("URL ====> ",url)
-    const response = await axios.post(url,payload,config);
+    const url = ApiBaseUrl + logout;      
+    const response = await axios.post(url, payload,config);
     console.log("Response ===> ",response.data)
     return response.data;
   } catch (error) {
-    console.log("Error ===> ",error)
     throw error.response.data;
   }
 });
 
-const GetTestsSlice = createSlice({
-  name: "getTestsReducer",
+const LogoutSlice = createSlice({
+  name: "logoutReducer",
 
   initialState: {
     isLoading: false,
     data: null,
   },
   reducers: {
-    clearTests: (state) => {
+    clearLogoutData: (state) => {
       state.data = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(hitTests.pending, (state) => {
+      .addCase(hitLogout.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(hitTests.fulfilled, (state, action) => {
+      .addCase(hitLogout.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(hitTests.rejected, (state) => {
+      .addCase(hitLogout.rejected, (state) => {
         state.isError = false;
       });
   },
 });
 
-export const { clearTests } = GetTestsSlice.actions;
-export default GetTestsSlice.reducer;
+export const { clearLogoutData } = LogoutSlice.actions;
+export default LogoutSlice.reducer;

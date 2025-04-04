@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { appColors } from '../../utils/color';
 import SessionIcon from '../../assets/svg/SessionIcon';
 import ChangePasswordIcon from '../../assets/svg/ChangePasswordIcon';
@@ -15,43 +15,46 @@ import { getImage } from '../../utils/getImages';
 import DemoIcon from '../../assets/svg/DemoIcon';
 import LogoutIcon from '../../assets/svg/LogoutIcon';
 import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearLogoutData, hitLogout } from '../../redux/LogoutSlice';
+import { hitProfile } from '../../redux/GetProfileSlice';
 
 
 const Profile = ({ navigation }) => {
 
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-    // const responseLogout = useSelector((state) => state.logoutReducer.data) 
-    // const responseProfile = useSelector((state) => state.getProfileReducer.data) 
+    const responseLogout = useSelector((state) => state.logoutReducer.data) 
+    const responseProfile = useSelector((state) => state.getProfileReducer.data) 
 
-    // const [profileData,setProfileData] = useState(null)
+    const [profileData,setProfileData] = useState(null)
 
-    // useEffect(()=>{
-    //   dispatch(hitProfile())
-    // },[])
+    useEffect(()=>{
+      dispatch(hitProfile())
+    },[])
 
-    // useEffect(()=>{
-    //   if(responseProfile!=null && responseProfile.status == 1){
-    //     setProfileData(responseProfile.data)
-    //   }
-    // },[responseProfile])
+    useEffect(()=>{
+      if(responseProfile!=null && responseProfile.status == 1){
+        setProfileData(responseProfile.data)
+      }
+    },[responseProfile])
 
-    // const onLogoutClick = () =>{
-    //   dispatch(hitLogout())
+    const onLogoutClick = () =>{
+      dispatch(hitLogout())
 
-    // }
+    }
 
-    // const clearLocalData= async() =>{
-    //   await AsyncStorage.clear()
-    // }
+    const clearLocalData= async() =>{
+      await AsyncStorage.clear()
+    }
 
-    // useEffect(()=>{
-    //   if(responseLogout!=null && responseLogout.status === 1){
-    //     navigation.navigate("Login")
-    //     dispatch(clearLogoutData())
-    //     clearLocalData()
-    //   }
-    // },[responseLogout])
+    useEffect(()=>{
+      if(responseLogout!=null && responseLogout.status === 1){
+        navigation.navigate("Login")
+        dispatch(clearLogoutData())
+        clearLocalData()
+      }
+    },[responseLogout])
 
     return (
         <SafeAreaView style={styles.containerStyle}>
@@ -101,7 +104,7 @@ const Profile = ({ navigation }) => {
                             <Text style={styles.cardNameStyle}>Demo</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.cardBoxLeft}
-                        // onPress={() => onLogoutClick()}
+                        onPress={() => onLogoutClick()}
                         >
                             <LogoutIcon />
                             <Text style={styles.cardNameStyle}>Logout</Text>

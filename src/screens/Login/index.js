@@ -21,7 +21,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const loginResponse = useSelector(state => state.loginReducer.data);
 
-  const [email, setEmail] = useState('manishseera12@gmail.com');
+  const [email, setEmail] = useState('manishseera@gmail.com');
   const [password, setPassword] = useState('123456');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,57 +29,57 @@ const Login = ({navigation}) => {
   const [isSplash, setIsSplash] = useState(false);
 
   const checkLogin = async () => {
-    // const token = await AsyncStorage.getItem('token');
-    // setTimeout(() => {
-    //   // checkLogin();
+    const token = await AsyncStorage.getItem('token');
+    setTimeout(() => {
+      // checkLogin();
 
-    //   if (token != null) {
-    //     console.log("hhh")
-    //     setIsSplash(false);
-    //     navigation.reset({
-    //       index: 0,
-    //       routes: [{name: 'BottomBar'}], // replace 'NewScreen' with your target screen
-    //     });
-    //   } else {
-    //     setIsSplash(false);
-    //   }
-    // }, 1500);
+      if (token != null) {
+        console.log("hhh")
+        setIsSplash(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'BottomBar'}], // replace 'NewScreen' with your target screen
+        });
+      } else {
+        setIsSplash(false);
+      }
+    }, 1500);
 
-    // return () => clearTimeout(timeout); 
+    return () => clearTimeout(timeout); 
   };
 
   useEffect(() => {
-    // checkLogin();
-    // setIsSplash(true);
+    checkLogin();
+    setIsSplash(true);
   }, []);
 
-  // const onLoginClick = async () => {
-  //   if (email.length == 0) {
-  //     handleShowMessage('Please enter valid number', 'danger');
-  //   } else {
-  //     setIsLoading(true);
-  //     const payload = {
-  //       email: email,
-  //       password: password,
-  //     };
+  const onLoginClick = async () => {
+    if (email.length == 0) {
+      handleShowMessage('Please enter valid number', 'danger');
+    } else {
+      setIsLoading(true);
+      const payload = {
+        email: email,
+        password: password,
+      };
 
-  //     console.log('Payload ===> ', payload);
-  //     dispatch(hitLogin(payload));
-  //   }
-  // };
+      console.log('Payload ===> ', payload);
+      dispatch(hitLogin(payload));
+    }
+  };
 
-  // useEffect(() => {
-  //   console.log('loginResponse ===> ', loginResponse);
-  //   if (loginResponse != null && loginResponse.status == 1) {
-  //     setIsLoading(false);
-  //     saveToken(loginResponse.token);
-  //     navigation.navigate('BottomBar');
-  //     dispatch(clearLoginData());
-  //   } else if (loginResponse != null) {
-  //     setIsLoading(false);
-  //     handleShowMessage(loginResponse.message, 'danger');
-  //   }
-  // }, [loginResponse]);
+  useEffect(() => {
+    console.log('loginResponse ===> ', loginResponse);
+    if (loginResponse != null && loginResponse.status == 1) {
+      setIsLoading(false);
+      saveToken(loginResponse.token);
+      navigation.navigate('BottomBar');
+      dispatch(clearLoginData());
+    } else if (loginResponse != null) {
+      setIsLoading(false);
+      handleShowMessage(loginResponse.message, 'danger');
+    }
+  }, [loginResponse]);
 
   const saveToken = async token => {
     console.log('token ===> ', token);
@@ -165,8 +165,9 @@ const Login = ({navigation}) => {
 
             <TouchableOpacity
               style={styles.loginButtonViewStyle}
-              onPress={() => navigation.navigate('BottomBar')
-              // onLoginClick()
+              onPress={() =>
+                //  navigation.navigate('BottomBar')
+              onLoginClick()
             }>
               {!isLoading ? (
                 <Text style={styles.loginButtonStyle}>Login</Text>

@@ -1,10 +1,10 @@
 // src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ApiBaseUrl, classTestsList} from "../utils/Constants";
+import { ApiBaseUrl,testDetails } from "../utils/Constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const hitTests = createAsyncThunk("hitTests", async (payload) => {
+export const hitTestDetail = createAsyncThunk("hitTestDetail", async (payload) => {
   try {
 
     const token = await AsyncStorage.getItem('token');
@@ -14,10 +14,10 @@ export const hitTests = createAsyncThunk("hitTests", async (payload) => {
         Authorization:token
       },
     };
-    const url = ApiBaseUrl + classTestsList;      
-    console.log("URL ====> ",url)
+    const url = ApiBaseUrl + testDetails;     
+    console.log("url ===> ",url) 
     const response = await axios.post(url,payload,config);
-    console.log("Response ===> ",response.data)
+   
     return response.data;
   } catch (error) {
     console.log("Error ===> ",error)
@@ -25,32 +25,32 @@ export const hitTests = createAsyncThunk("hitTests", async (payload) => {
   }
 });
 
-const GetTestsSlice = createSlice({
-  name: "getTestsReducer",
+const GetTestDetailSlice = createSlice({
+  name: "getTestDetailReducer",
 
   initialState: {
     isLoading: false,
     data: null,
   },
   reducers: {
-    clearTests: (state) => {
+    clearTestDetail: (state) => {
       state.data = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(hitTests.pending, (state) => {
+      .addCase(hitTestDetail.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(hitTests.fulfilled, (state, action) => {
+      .addCase(hitTestDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(hitTests.rejected, (state) => {
+      .addCase(hitTestDetail.rejected, (state) => {
         state.isError = false;
       });
   },
 });
 
-export const { clearTests } = GetTestsSlice.actions;
-export default GetTestsSlice.reducer;
+export const { clearTestDetail } = GetTestDetailSlice.actions;
+export default GetTestDetailSlice.reducer;
