@@ -10,20 +10,9 @@ import {
 import React from 'react';
 import {appColors} from '../../utils/color';
 import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
-import AttendenceIcon from '../../assets/svg/AttendenceIcon';
-import ClassmatesIcon from '../../assets/svg/ClassmatesIcon';
-import SubjectIcon from '../../assets/svg/SubjectIcon';
-import TestsIcon from '../../assets/svg/TestsIcons';
-import TimeTableIcon from '../../assets/svg/TimeTableIcon';
 import HomeworkIcon from '../../assets/svg/HomeworkIcon';
 import AnnoucementIcon from '../../assets/svg/AnnoucementIcon';
 import EventIcon from '../../assets/svg/EventIcon';
-import AppointmentIcon from '../../assets/svg/AppointmentIcon';
-import ApplyLeaveIcon from '../../assets/svg/ApplyLeaveIcon';
-import LeaveDetailIcon from '../../assets/svg/LeaveDetailIcon';
-import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
-import PaymentHistoryIcon from '../../assets/svg/PaymentHistoryIcon';
-import OnlinePaymentIcon from '../../assets/svg/OnlinePaymentIcon';
 import {useNavigation} from '@react-navigation/core';
 import {getImage} from '../../utils/getImages';
 
@@ -72,7 +61,7 @@ const Home = ({navigation}) => {
           <View style={styles.CardStyle}>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('Attendence')}>
+              onPress={() => navigation.navigate('Annoucement')}>
               <View style={styles.imageBoxStyle}>
                 <AnnoucementIcon />
               </View>
