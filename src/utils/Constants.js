@@ -28,6 +28,7 @@ export const classTest = 'staff/classTest';
 export const addAnnouncementApi = 'staff/announcement';
 export const announcementListApi = 'staff/announcementList';
 export const announcementDetailsApi = 'staff/announcementDetails';
+export const upload = 'staff/upload';
 
 export const handleShowMessage = (message,type) => {
     showMessage({

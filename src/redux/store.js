@@ -10,6 +10,7 @@ import getClassReducer from './GetClassListSlice';
 import addAnnouncementReducer from './AddAnnouncementSlice';
 import announcementListReducer from './GetAnnouncementListSlice';
 import getAnnouncementDetailReducer from './GetAnnouncementDetailSlice';
+import uploadFileReducer from './uploadFile';
 
 export const store = configureStore({
     reducer:{
@@ -24,5 +25,6 @@ export const store = configureStore({
         addAnnouncementReducer: addAnnouncementReducer,
         announcementListReducer: announcementListReducer,
         getAnnouncementDetailReducer: getAnnouncementDetailReducer,
+        uploadFileReducer: uploadFileReducer,
     }
 })
