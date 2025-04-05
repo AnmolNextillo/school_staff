@@ -84,7 +84,6 @@ const AddAnnoucement = () => {
     );
 };
 
-
 export default AddAnnoucement;
 
 const styles = StyleSheet.create({
