@@ -9,7 +9,7 @@ import { appColors } from '../../utils/color';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAnnouncementDetail } from '../../redux/GetAnnouncementDetailSlice';
 
-const AnnoucementDetail = ({ navigation, route }) => {
+const EventDetail = ({ navigation, route }) => {
 
     const { data } = route.params;
     const dispatch = useDispatch()
@@ -76,7 +76,7 @@ const AnnoucementDetail = ({ navigation, route }) => {
     );
 };
 
-export default AnnoucementDetail;
+export default EventDetail;
 
 const styles = StyleSheet.create({
     headerText: {

@@ -78,7 +78,7 @@ const Home = ({navigation}) => {
           <View style={styles.CardStyle}>
             <TouchableOpacity
               style={styles.eventsCard}
-              onPress={() => navigation.navigate('Subjects')}>
+              onPress={() => navigation.navigate('Event')}>
               <EventIcon />
               <Text style={styles.cardNameStyle}>Events</Text>
             </TouchableOpacity>

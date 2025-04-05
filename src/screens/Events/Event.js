@@ -1,4 +1,4 @@
-import {  SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { appColors } from '../../utils/color'
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,7 @@ import PlusIcon from '../../assets/svg/PlusIcon';
 import { announcementList } from '../../redux/GetAnnouncementListSlice';
 import { useNavigation } from '@react-navigation/core';
 
-const Annoucement = () => {
+const Event = () => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch()
@@ -38,14 +38,14 @@ const Annoucement = () => {
             onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Annoucement</Text>
+          <Text style={styles.headerText}>Event</Text>
         </View>
         <ScrollView style={{ padding: 16 }}>
           {announcement != null &&
             announcement.map((item, index) => (
               <TouchableOpacity
                 style={styles.testList}
-                onPress={() => navigation.navigate('AnnoucementDetail', { data: item })}>
+                onPress={() => navigation.navigate('EventDetail', { data: item })}>
                 <Text>
                   {index + 1}. {item.title} {'(' + item.classId.name + ')'}
                 </Text>
@@ -59,7 +59,7 @@ const Annoucement = () => {
 
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => navigation.navigate("AddAnnoucement")}>
+          onPress={() => navigation.navigate("AddEvent")}>
           <PlusIcon />
         </TouchableOpacity>
       </View>
@@ -67,7 +67,7 @@ const Annoucement = () => {
   )
 }
 
-export default Annoucement
+export default Event
 
 const styles = StyleSheet.create({
   headerText: {
