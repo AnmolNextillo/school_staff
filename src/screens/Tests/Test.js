@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
+import {useIsFocused, useNavigation} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {hitTests} from '../../redux/GetTestsSlice';
 import TestsIcon from '../../assets/svg/TestsIcons';
@@ -20,13 +20,17 @@ const Test = () => {
 
   const dispatch = useDispatch();
 
+  const isFocused = useIsFocused();
+
   const responseTests = useSelector(state => state.getTestsReducer.data);
 
   const [tests, setTest] = useState(null);
 
   useEffect(() => {
-    dispatch(hitTests());
-  }, []);
+    if (isFocused) {
+      dispatch(hitTests());
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     console.log('responseTests test ===>', responseTests);
@@ -60,7 +64,9 @@ const Test = () => {
                 <Text>
                   {index + 1}. {item.title} {'(' + item.subjectId.name + ')'}
                 </Text>
-                <Text style={{marginTop:8,fontWeight:'500'}}>Class : {item.classId.name}</Text>
+                <Text style={{marginTop: 8, fontWeight: '500'}}>
+                  Class : {item.classId.name}
+                </Text>
                 <Text style={{marginTop: 8, color: appColors.grey}}>
                   Date : {item.date}
                 </Text>
@@ -95,8 +101,8 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: appColors.white,
     borderRadius: 8,
-    borderWidth:1,
-    borderColor:appColors.primaryColor
+    borderWidth: 1,
+    borderColor: appColors.primaryColor,
   },
   fab: {
     position: 'absolute',

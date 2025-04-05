@@ -13,6 +13,7 @@ import AddHomework from './src/screens/AddHomework';
 import Annoucement from './src/screens/Annoucement/Annoucement';
 import AddAnnoucement from './src/screens/AddAnnoucement/AddAnnoucement';
 import TestDetail from './src/screens/TestDetail.js';
+import FlashMessage from 'react-native-flash-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ function App() {
         <Stack.Screen name="TestDetail" component={TestDetail} options={{ title: 'TestDetail' }} />
       </Stack.Navigator>
     </NavigationContainer>
+    <FlashMessage position="bottom" />
     </Provider>
   );
 }

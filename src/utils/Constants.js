@@ -22,6 +22,9 @@ export const testDetails = 'staff/classTestDetails';
 export const ackTest = 'student/ackTest';
 export const myAttendanceApi = 'student/myAttendance';
 export const getAppVersionsApi = 'student/getAppVersions';
+export const subjectLists = 'staff/subjectList';
+export const classList = 'staff/classList';
+export const classTest = 'staff/classTest';
 
 
 export const handleShowMessage = (message,type) => {
