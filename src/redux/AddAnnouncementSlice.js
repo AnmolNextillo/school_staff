@@ -14,7 +14,7 @@ export const addAnnouncement = createAsyncThunk("addAnnouncement", async (payloa
     };
     const url = ApiBaseUrl + addAnnouncementApi;      
     const response = await axios.post(url, payload, config);
-    console.log("Response add announcement ===> ",response.data)
+    console.log("Response data add announcement ===> ",response.data)
     return response.data;
   } catch (error) {
     throw error.response.data;

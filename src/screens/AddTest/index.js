@@ -80,7 +80,7 @@ const AddTest = () => {
           date: date,
           classId: selectedClass,
           sectionId: '',
-          addedByStaffId: '',
+          addedByStaffId: 1,
           media: '',
           totalMarks: totalMarks,
         };

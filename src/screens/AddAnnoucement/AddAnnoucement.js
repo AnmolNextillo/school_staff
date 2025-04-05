@@ -5,7 +5,13 @@ import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { addAnnouncement } from '../../redux/AddAnnouncementSlice';
+import { addAnnouncement, clearAddAnnouncementData } from '../../redux/AddAnnouncementSlice';
+import { uploadFile } from '../../redux/uploadFile';
+import { hitClassList } from '../../redux/GetClassListSlice';
+import { hitSubjectList } from '../../redux/GetSujectListSlice';
+import { handleShowMessage } from '../../utils/Constants';
+import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddAnnoucement = () => {
 
@@ -17,24 +23,75 @@ const AddAnnoucement = () => {
     const [subject, setSubject] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedClass, setSelectedClass] = useState('');
+    const [classList, setClassList] = useState(null);
+    const [subjectList, setSubjectList] = useState(null);
     const [imageUri, setImageUri] = useState(null);
 
+    const responseSubject = useSelector(state => state.getSubjectReducer.data);
+    const responseClasses = useSelector(state => state.getClassReducer.data);
     const responseAddAnnouncement = useSelector((state) => state.addAnnouncementReducer.data)
+    const responseUploadFile = useSelector(state => state.addAnnouncementReducer.data);
 
     useEffect(() => {
-        console.log("responseAddAnnouncement re===> ", responseAddAnnouncement)
+        dispatch(hitClassList());
+    }, []);
+
+    useEffect(() => {
+        if (selectedClass) {
+            const payload = { classId: selectedClass };
+            dispatch(hitSubjectList(payload));
+        }
+    }, [selectedClass]);
+
+    useEffect(() => {
+        if (responseClasses && responseClasses.status === 1) {
+            setClassList(responseClasses.data);
+            setSelectedClass(responseClasses.data[0]._id);
+        }
+    }, [responseClasses]);
+
+    useEffect(() => {
+        if (responseSubject && responseSubject.status === 1) {
+            setSubjectList(responseSubject.data);
+            setSubject(responseSubject.data[0]._id)
+        }
+    }, [responseSubject]);
+
+    useEffect(() => {
+        console.log("responseAddAnnouncement response===> ", responseAddAnnouncement)
         if (responseAddAnnouncement != null && responseAddAnnouncement.status === 1) {
-            setTitle('');
-            setSubject('');
-            setDescription('');
-            setDate('');
-            setSelectedClass('');
-            setImageUri(null);
-            navigation.goBack();
-            Alert.alert('Success', 'Announcement added successfully');
+            dispatch(uploadFile(imageUri));
+            dispatch(clearAddAnnouncementData());
+            Alert.alert('Success', 'Homework added successfully');
         }
     }, [responseAddAnnouncement])
+
+    const handleSubmit = () => {
+        if (title && subject && date && selectedClass) {
+            if (imageUri != null) {
+                dispatch(uploadFile(imageUri));
+            } else {
+                const payload = {
+                    title: title,
+                    subjectId: subject,
+                    date: date,
+                    classId: selectedClass,
+                    sectionId: '',
+                    addedByStaffId: 1,
+                    media: '',
+                    type: 2,
+                    addedBy: 2,
+                    addedByAdminId: 0,
+                };
+                console.log("payload data add annouement===>", payload);
+                dispatch(addAnnouncement(payload));
+            }
+        } else {
+            handleShowMessage('Please fill in all fields', 'danger');
+        }
+    };
 
     const handleImagePick = () => {
         console.log("launchImageLibrary ===>", launchImageLibrary)
@@ -45,23 +102,45 @@ const AddAnnoucement = () => {
         });
     };
 
-    const handleSubmit = () => {
-        if (title && subject && date && selectedClass) {
-            console.log("newTest data===>", payload)
-            const payload = {
-                title: title,
-                subjectId: subject,
-                date: date,
-                classId: selectedClass,
-                image: imageUri,
-                description: description,
-            };
-            dispatch(addAnnouncement(payload));
-            Alert.alert('Success', 'Homework added successfully');
+    useEffect(() => {
+        if (responseAddAnnouncement != null && responseAddAnnouncement.status === 1) {
+            handleShowMessage('Test added successfully', 'success');
+            navigation.goBack();
+            dispatch(clearAddAnnouncementData());
         } else {
-            Alert.alert('Error', 'Please fill in all fields');
+            if (responseAddAnnouncement != null) {
+                handleShowMessage(responseAddAnnouncement.message, 'danger');
+            }
         }
-    };
+    }, [responseAddAnnouncement]);
+
+    useEffect(() => {
+        if (responseUploadFile != null && responseUploadFile.status === 1) {
+            if (title && subject && date && selectedClass) {
+                const payload = {
+                    title: title,
+                    subjectId: subject,
+                    date: date,
+                    classId: selectedClass,
+                    media: responseUploadFile.Location,
+                    type: 2,
+                    addedBy: 2,
+                    sectionId: "",
+                    addedByStaffId: 1,
+                    addedByAdminId: 0,
+                };
+                console.log('Payload Add Test ====> ', payload);
+                dispatch(addAnnouncement(payload));
+            } else {
+                // Alert.alert('Error', 'Please fill in all fields');
+                handleShowMessage('Please fill in all fields', 'danger');
+            }
+        } else {
+            if (responseUploadFile != null) {
+                handleShowMessage(responseUploadFile.message, 'danger');
+            }
+        }
+    }, [responseUploadFile]);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -73,13 +152,43 @@ const AddAnnoucement = () => {
                 <ScrollView style={styles.inputContainer}>
                     <TextInput style={styles.input} placeholder="Annoucement Title" value={title} onChangeText={setTitle} />
                     <TextInput style={styles.input} placeholder="Subject" value={subject} onChangeText={setSubject} />
-                    <TextInput style={styles.input} placeholder="Date (YYYY-MM-DD)" value={date} onChangeText={setDate} />
-                    <View style={styles.pickerContainer}>
+                    <View
+                        style={[
+                            styles.input,
+                            { flexDirection: 'row', alignContent: 'center' },
+                        ]}>
+                        <Text
+                            style={{ color: date ? appColors.black : appColors.grey, flex: 1 }}>
+                            {date || 'Select Date'}
+                        </Text>
+                        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                            <AnnualCalenderIcon height={24} width={24} />
+                        </TouchableOpacity>
+                    </View>
+                    {showDatePicker && (
+                        <DateTimePicker
+                            value={date ? new Date(date) : new Date()}
+                            mode="date"
+                            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                            onChange={(event, selectedDate) => {
+                                setShowDatePicker(false);
+                                if (selectedDate) {
+                                    const formattedDate = selectedDate
+                                        .toISOString()
+                                        .split('T')[0]; // YYYY-MM-DD
+                                    setDate(formattedDate);
+                                }
+                            }}
+                        />
+                    )}                    <View style={styles.pickerContainer}>
                         <Picker selectedValue={selectedClass} style={styles.picker} onValueChange={itemValue => setSelectedClass(itemValue)}>
-                            <Picker.Item label="Select Class" value="" />
-                            <Picker.Item label="Class 1" value="class1" />
-                            <Picker.Item label="Class 2" value="class2" />
-                            <Picker.Item label="Class 3" value="class3" />
+                            {classList?.map(item => (
+                                <Picker.Item
+                                    key={item._id}
+                                    label={item.name}
+                                    value={item._id}
+                                />
+                            ))}
                         </Picker>
                     </View>
                     <TextInput
