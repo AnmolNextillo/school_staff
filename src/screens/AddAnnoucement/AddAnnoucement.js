@@ -1,49 +1,67 @@
-import { SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Alert} from 'react-native';
-import React, {useState} from 'react';
-import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
-import {useDispatch} from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { appColors } from '../../utils/color';
+import { useNavigation } from '@react-navigation/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { addAnnouncement } from '../../redux/AddAnnouncementSlice';
 
 const AddAnnoucement = () => {
 
-   const navigation = useNavigation();
-     const dispatch = useDispatch();
-   
-     const [title, setTitle] = useState('');
-     const [subject, setSubject] = useState('');
-     const [description, setDescription] = useState('');
-     const [date, setDate] = useState('');
-     const [selectedClass, setSelectedClass] = useState('');
-     const [imageUri, setImageUri] = useState(null);
-   
-     const handleImagePick = () => {
-        console.log("launchImageLibrary ===>",launchImageLibrary)
-         launchImageLibrary({mediaType: 'photo'}, response => {
-             if (response.assets && response.assets.length > 0) {
-                 setImageUri(response.assets[0].uri);
-             }
-         });
-     };
-    
-     const handleSubmit = () => {
-         if (title && subject && date && selectedClass) {
-           const newTest = {
-             title:title,
-             subjectId: subject,
-             date:date,
-             classId: selectedClass,
-             image: imageUri,
-           };
-           dispatch(addAnnouncement(newTest));
-           Alert.alert('Success', 'Homework added successfully');
-           navigation.goBack();
-         } else {
-           Alert.alert('Error', 'Please fill in all fields');
-         }
-     };
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const [announcementData, setAnnouncementData] = useState(null);
+    const [title, setTitle] = useState('');
+    const [subject, setSubject] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
+    const [selectedClass, setSelectedClass] = useState('');
+    const [imageUri, setImageUri] = useState(null);
+
+    const responseAddAnnouncement = useSelector((state) => state.addAnnouncementReducer.data)
+
+    useEffect(() => {
+        console.log("responseAddAnnouncement re===> ", responseAddAnnouncement)
+        if (responseAddAnnouncement != null && responseAddAnnouncement.status === 1) {
+            setTitle('');
+            setSubject('');
+            setDescription('');
+            setDate('');
+            setSelectedClass('');
+            setImageUri(null);
+            navigation.goBack();
+            Alert.alert('Success', 'Announcement added successfully');
+        }
+    }, [responseAddAnnouncement])
+
+    const handleImagePick = () => {
+        console.log("launchImageLibrary ===>", launchImageLibrary)
+        launchImageLibrary({ mediaType: 'photo' }, response => {
+            if (response.assets && response.assets.length > 0) {
+                setImageUri(response.assets[0].uri);
+            }
+        });
+    };
+
+    const handleSubmit = () => {
+        if (title && subject && date && selectedClass) {
+            console.log("newTest data===>", payload)
+            const payload = {
+                title: title,
+                subjectId: subject,
+                date: date,
+                classId: selectedClass,
+                image: imageUri,
+                description: description,
+            };
+            dispatch(addAnnouncement(payload));
+            Alert.alert('Success', 'Homework added successfully');
+        } else {
+            Alert.alert('Error', 'Please fill in all fields');
+        }
+    };
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -75,7 +93,7 @@ const AddAnnoucement = () => {
                         <Text style={styles.buttonText}>Upload Image</Text>
                     </TouchableOpacity>
                     {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
-                    <TouchableOpacity style={styles.button} onPress={()=>handleSubmit()}>
+                    <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
                         <Text style={styles.buttonText}>Add Annoucement</Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -136,7 +154,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         marginTop: 16,
-        marginBottom:32
+        marginBottom: 32
     },
     buttonText: {
         color: appColors.white,
