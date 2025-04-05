@@ -7,6 +7,9 @@ import getTestDetailReducer from './GetTestDetailSlice';
 import addTestReducer from './AddTestSlice';
 import getSubjectReducer from './GetSujectListSlice';
 import getClassReducer from './GetClassListSlice';
+import addAnnouncementReducer from './AddAnnouncementSlice';
+import announcementListReducer from './GetAnnouncementListSlice';
+import getAnnouncementDetailReducer from './GetAnnouncementDetailSlice';
 
 export const store = configureStore({
     reducer:{
@@ -18,5 +21,8 @@ export const store = configureStore({
         addTestReducer: addTestReducer,
         getSubjectReducer: getSubjectReducer,
         getClassReducer: getClassReducer,
+        addAnnouncementReducer: addAnnouncementReducer,
+        announcementListReducer: announcementListReducer,
+        getAnnouncementDetailReducer: getAnnouncementDetailReducer,
     }
 })

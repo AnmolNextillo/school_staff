@@ -25,6 +25,9 @@ export const getAppVersionsApi = 'student/getAppVersions';
 export const subjectLists = 'staff/subjectList';
 export const classList = 'staff/classList';
 export const classTest = 'staff/classTest';
+export const addAnnouncementApi = 'staff/announcement';
+export const announcementListApi = 'staff/announcementList';
+export const announcementDetailsApi = 'staff/announcementDetails';
 
 
 export const handleShowMessage = (message,type) => {

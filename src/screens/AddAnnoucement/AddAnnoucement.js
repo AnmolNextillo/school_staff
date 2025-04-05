@@ -1,10 +1,11 @@
-import { SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {appColors} from '../../utils/color';
 import {useNavigation} from '@react-navigation/core';
 import {useDispatch} from 'react-redux';
 import {Picker} from '@react-native-picker/picker';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { addAnnouncement } from '../../redux/AddAnnouncementSlice';
 
 const AddAnnoucement = () => {
 
@@ -28,20 +29,20 @@ const AddAnnoucement = () => {
      };
     
      const handleSubmit = () => {
-         // if (title && subject && date && selectedClass) {
-         //   const newTest = {
-         //     title,
-         //     subjectId: subject,
-         //     date,
-         //     classId: selectedClass,
-         //     image: imageUri,
-         //   };
-         //   dispatch(addTest(newTest));
-         //   Alert.alert('Success', 'Homework added successfully');
-         //   navigation.goBack();
-         // } else {
-         //   Alert.alert('Error', 'Please fill in all fields');
-         // }
+         if (title && subject && date && selectedClass) {
+           const newTest = {
+             title:title,
+             subjectId: subject,
+             date:date,
+             classId: selectedClass,
+             image: imageUri,
+           };
+           dispatch(addAnnouncement(newTest));
+           Alert.alert('Success', 'Homework added successfully');
+           navigation.goBack();
+         } else {
+           Alert.alert('Error', 'Please fill in all fields');
+         }
      };
 
     return (
@@ -74,7 +75,7 @@ const AddAnnoucement = () => {
                         <Text style={styles.buttonText}>Upload Image</Text>
                     </TouchableOpacity>
                     {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <TouchableOpacity style={styles.button} onPress={()=>handleSubmit()}>
                         <Text style={styles.buttonText}>Add Annoucement</Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -82,7 +83,6 @@ const AddAnnoucement = () => {
         </SafeAreaView>
     );
 };
-
 
 export default AddAnnoucement;
 

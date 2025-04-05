@@ -4,22 +4,26 @@ import { appColors } from '../../utils/color'
 import { getImage } from '../../utils/getImages';
 import { useDispatch, useSelector } from 'react-redux';
 import PlusIcon from '../../assets/svg/PlusIcon';
+import { announcementList } from '../../redux/GetAnnouncementListSlice';
+import { useNavigation } from '@react-navigation/core';
 
-const Annoucement = ({ navigation }) => {
-  
-  // const dispatch = useDispatch()
-  // const [announcement, setAnnouncement] = useState(null)
-  // const responseAnnouncements = useSelector((state) => state.announcementsReducer.data)
+const Annoucement = () => {
 
-  // useEffect(() => {
-  //   dispatch(hitAnnouncements())
-  // }, [])
+  const navigation = useNavigation();
+  const dispatch = useDispatch()
+  const [announcement, setAnnouncement] = useState(null)
+  const responseAnnouncementList = useSelector((state) => state.announcementListReducer.data)
 
-  // useEffect(() => {
-  //   if (responseAnnouncements != null && responseAnnouncements.status == 1) {
-  //     setAnnouncement(responseAnnouncements.data)
-  //   }
-  // }, [responseAnnouncements])
+  useEffect(() => {
+    dispatch(announcementList())  
+  }, [])
+
+  useEffect(() => {
+    console.log('responseAnnouncementList resp ===>', responseAnnouncementList);
+    if (responseAnnouncementList != null && responseAnnouncementList.status == 1) {
+      setAnnouncement(responseAnnouncementList.data)
+    }
+  }, [responseAnnouncementList])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -38,10 +42,20 @@ const Annoucement = ({ navigation }) => {
           <Text style={styles.headerText}>Annoucement</Text>
         </View>
         <ScrollView style={{ padding: 16 }}>
-          {/* {announcement != null &&
+          {announcement != null &&
             announcement.map((item, index) => (
-              
-            ))} */}
+              <TouchableOpacity
+                style={styles.testList}
+                onPress={() => navigation.navigate('AnnoucementDetail', { data: item })}>
+                <Text>
+                  {index + 1}. {item.title} {'(' + item.classId.name + ')'}
+                </Text>
+                <Text style={{ marginTop: 8, fontWeight: '500' }}>Class : {item.classId.name}</Text>
+                <Text style={{ marginTop: 8, color: appColors.grey }}>
+                  Date : {item.date}
+                </Text>
+              </TouchableOpacity>
+            ))}
         </ScrollView>
 
         <TouchableOpacity
@@ -69,6 +83,15 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  testList: {
+    fontSize: 14,
+    marginBottom: 8,
+    padding: 16,
+    backgroundColor: appColors.white,
+    borderRadius: 8,
+    borderWidth:1,
+    borderColor:appColors.primaryColor
+  },
   fab: {
     position: 'absolute',
     right: 16,
@@ -81,9 +104,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 5,
-    padding:16
+    padding: 16
   },
 })
