@@ -1,8 +1,6 @@
 import {Linking, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {appColors} from '../../utils/color';
-import { useDispatch } from 'react-redux';
-import { hitHomeWork } from '../../redux/HomeWorkSlice';
 import moment from 'moment';
 
 const Homework = ({navigation,route}) => {
@@ -21,7 +19,7 @@ const Homework = ({navigation,route}) => {
       <View style={{flex: 1}}>
         <View
           style={{
-            flexDirection: 'row', 
+            flexDirection: 'row',
             padding: 16,
             backgroundColor: appColors.white,
           }}>
@@ -30,7 +28,7 @@ const Homework = ({navigation,route}) => {
             onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Homework Details</Text>
+          <Text style={styles.headerText}>Event Details</Text>
         </View>
         <ScrollView style={{padding: 16}}>
           <View style={{backgroundColor:appColors.white,padding:16,borderRadius:16}}>

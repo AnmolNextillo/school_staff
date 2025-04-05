@@ -13,7 +13,7 @@ import { handleShowMessage } from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AddAnnoucement = () => {
+const AddEvent = () => {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const AddAnnoucement = () => {
                     date: date,
                     description: description,
                     classId: selectedClass,
-                    type: 3,
+                    type: 2,
                 };
                 console.log("payload data add annouement===>", payload);
                 dispatch(addAnnouncement(payload));
@@ -120,7 +120,7 @@ const AddAnnoucement = () => {
                     classId: selectedClass,
                     media: responseUploadFile.Location,
                     ddescription: description,
-                    type: 3,
+                    type: 2,
                 };
                 console.log('Payload Add Test ====> ', payload);
                 dispatch(addAnnouncement(payload));
@@ -140,10 +140,10 @@ const AddAnnoucement = () => {
             <View style={{ flex: 1 }}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.backText} onPress={() => navigation.goBack()}>Back</Text>
-                    <Text style={styles.headerText}>Add Annoucement</Text>
+                    <Text style={styles.headerText}>Add Event</Text>
                 </View>
                 <ScrollView style={styles.inputContainer}>
-                    <TextInput style={styles.input} placeholder="Annoucement Title" value={title} onChangeText={setTitle} />
+                    <TextInput style={styles.input} placeholder="Event Title" value={title} onChangeText={setTitle} />
 
                     <View style={styles.pickerContainer}>
                         <Picker
@@ -214,7 +214,7 @@ const AddAnnoucement = () => {
                     </TouchableOpacity>
                     {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
                     <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
-                        <Text style={styles.buttonText}>Add Annoucement</Text>
+                        <Text style={styles.buttonText}>Add Event</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
@@ -222,7 +222,7 @@ const AddAnnoucement = () => {
     );
 };
 
-export default AddAnnoucement;
+export default AddEvent;
 
 const styles = StyleSheet.create({
     headerContainer: {

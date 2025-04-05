@@ -1,7 +1,6 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { appColors } from '../../utils/color'
-import { getImage } from '../../utils/getImages';
 import { useDispatch, useSelector } from 'react-redux';
 import PlusIcon from '../../assets/svg/PlusIcon';
 import { announcementList } from '../../redux/GetAnnouncementListSlice';

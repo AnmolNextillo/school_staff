@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { hitHomeWork } from '../../redux/HomeWorkSlice';
 import moment from 'moment';
 
-const Homework = ({navigation,route}) => {
+const Event= ({navigation,route}) => {
 
   const {item} = route.params
 
@@ -54,7 +54,7 @@ const Homework = ({navigation,route}) => {
   );
 };
 
-export default Homework;
+export default Event;
 
 const styles = StyleSheet.create({
   headerText: {
