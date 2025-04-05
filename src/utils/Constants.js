@@ -29,7 +29,6 @@ export const addAnnouncementApi = 'staff/announcement';
 export const announcementListApi = 'staff/announcementList';
 export const announcementDetailsApi = 'staff/announcementDetails';
 
-
 export const handleShowMessage = (message,type) => {
     showMessage({
       message: "KCM School",
