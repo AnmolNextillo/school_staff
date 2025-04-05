@@ -69,7 +69,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('HomeWorkList')}>
+              onPress={() => navigation.navigate('ClassList')}>
               <HomeworkIcon />
               <Text style={styles.cardNameStyle}>HomeWork</Text>
             </TouchableOpacity>

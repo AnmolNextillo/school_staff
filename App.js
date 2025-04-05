@@ -15,6 +15,7 @@ import AddAnnoucement from './src/screens/AddAnnoucement/AddAnnoucement';
 import TestDetail from './src/screens/TestDetail.js';
 import FlashMessage from 'react-native-flash-message';
 import AnnoucementDetail from './src/screens/AnnoucementDetail/AnnoucementDetail.js';
+import ClassList from './src/screens/ClassList/index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ function App() {
         <Stack.Screen name="AddAnnoucement" component={AddAnnoucement} options={{ title: 'AddAnnoucement' }} />
         <Stack.Screen name="TestDetail" component={TestDetail} options={{ title: 'TestDetail' }} />
         <Stack.Screen name="AnnoucementDetail" component={AnnoucementDetail} options={{ title: 'AnnoucementDetail' }} />
+        <Stack.Screen name="ClassList" component={ClassList} options={{ title: 'ClassList' }} />
       </Stack.Navigator>
     </NavigationContainer>
     <FlashMessage position="bottom" />

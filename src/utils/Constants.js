@@ -29,6 +29,7 @@ export const addAnnouncementApi = 'staff/announcement';
 export const announcementListApi = 'staff/announcementList';
 export const announcementDetailsApi = 'staff/announcementDetails';
 export const upload = 'staff/upload';
+export const getHomeWorkList = 'staff/getHomeWorkList';
 
 export const handleShowMessage = (message,type) => {
     showMessage({

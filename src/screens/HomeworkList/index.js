@@ -13,21 +13,29 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
 import moment from 'moment';
 import PlusIcon from '../../assets/svg/PlusIcon';
+import {hitHomework} from '../../redux/GetHomeworkSlice';
 
-const HomeWorkList = ({navigation}) => {
+const HomeWorkList = ({navigation,route}) => {
+
+  const {classId} = route.params;
+
   const dispatch = useDispatch();
-  // const responseHomeWork = useSelector(state => state.homeWorkReducer.data);
+  const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
   const [homeWork, setHomeWork] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(hitHomeWork());
-  // }, []);
+  useEffect(() => {
+    const payload = {
+      classId:classId,
+      type:1
+    }
+    dispatch(hitHomework(payload));
+  }, []);
 
-  // useEffect(() => {
-  //   if(responseHomeWork!=null && responseHomeWork.status==1){
-  //   setHomeWork(responseHomeWork.data);
-  //   }
-  // }, [responseHomeWork]);
+  useEffect(() => {
+    if (responseHomeWork != null && responseHomeWork.status == 1) {
+      setHomeWork(responseHomeWork.data);
+    }
+  }, [responseHomeWork]);
 
   return (
     <SafeAreaView style={{flex: 1}}>

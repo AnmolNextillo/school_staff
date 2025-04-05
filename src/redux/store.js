@@ -11,6 +11,7 @@ import addAnnouncementReducer from './AddAnnouncementSlice';
 import announcementListReducer from './GetAnnouncementListSlice';
 import getAnnouncementDetailReducer from './GetAnnouncementDetailSlice';
 import uploadFileReducer from './uploadFile';
+import getHomeworkReducer from './GetHomeworkSlice';
 
 export const store = configureStore({
     reducer:{
@@ -26,5 +27,6 @@ export const store = configureStore({
         announcementListReducer: announcementListReducer,
         getAnnouncementDetailReducer: getAnnouncementDetailReducer,
         uploadFileReducer: uploadFileReducer,
+        getHomeworkReducer: getHomeworkReducer,
     }
 })
