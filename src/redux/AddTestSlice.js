@@ -14,8 +14,10 @@ export const hitAddTest = createAsyncThunk("hitAddTest", async (payload) => {
         Authorization:token
       },
     };
+
+    console.log("Config ===> ",config)
     const url = ApiBaseUrl + classTest;      
-    const response = await axios.post(url,config);
+    const response = await axios.post(url,payload,config);
     console.log("Response Add Test===> ",response.data)
     return response.data;
   } catch (error) {

@@ -19,7 +19,7 @@ import ClassList from './src/screens/ClassList/index.js';
 import EventDetail from './src/screens/EventDetail/EventDetail.js';
 import AddEvent from './src/screens/AddEvents/AddEvent.js';
 import EventList from './src/screens/EventList/Event.js';
-import Event from './src/screens/Event/Index.js';
+import Gallery from './src/screens/Gallery/Gallery.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,9 +48,9 @@ function App() {
         <Stack.Screen name="AnnoucementDetail" component={AnnoucementDetail} options={{ title: 'AnnoucementDetail' }} />
         <Stack.Screen name="ClassList" component={ClassList} options={{ title: 'ClassList' }} />
         <Stack.Screen name="EventList" component={EventList} options={{ title: 'EventList' }} />
-        <Stack.Screen name="Event" component={Event} options={{ title: 'Event' }} />
         <Stack.Screen name="EventDetail" component={EventDetail} options={{ title: 'EventDetail' }} />
         <Stack.Screen name="AddEvent" component={AddEvent} options={{ title: 'AddEvent' }} />
+        <Stack.Screen name="Gallery" component={Gallery} options={{ title: 'Gallery' }} />
       </Stack.Navigator>
     </NavigationContainer>
     <FlashMessage position="bottom" />

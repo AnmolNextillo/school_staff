@@ -56,7 +56,7 @@ const EventList = ({navigation,route}) => {
           <View style={styles.container}>
             {homeWork != null &&
               homeWork.map(item => (
-                <TouchableOpacity style={styles.container}>
+                <View style={styles.container}>
                   <View style={styles.dateContainer}>
                     {/* <MaterialIcons name="event" size={16} color="#3b82f6" /> */}
                     <View style={styles.dotedLine}></View>
@@ -68,7 +68,7 @@ const EventList = ({navigation,route}) => {
 
                   <TouchableOpacity
                     style={styles.card}
-                    onPress={() => navigation.navigate('AddEventDetail', {item})}>
+                    onPress={() => navigation.navigate('EventDetail', {item})}>
                     <Text style={styles.title}>{item.subject}</Text>
                     <Text
                       style={styles.description}
@@ -77,7 +77,7 @@ const EventList = ({navigation,route}) => {
                       {item.description}
                     </Text>
                   </TouchableOpacity>
-                </TouchableOpacity>
+                </View>
               ))}
           </View>
         </ScrollView>

@@ -11,8 +11,10 @@ import {appColors} from '../../utils/color';
 import {useDispatch, useSelector} from 'react-redux';
 import {hitClassList} from '../../redux/GetClassListSlice';
 
-const ClassList = ({navigation}) => {
+const ClassList = ({navigation,route}) => {
   const dispatch = useDispatch();
+
+  const {from} = route.params
 
   const responseClassList = useSelector(state => state.getClassReducer.data);
 
@@ -41,7 +43,7 @@ const ClassList = ({navigation}) => {
           onPress={() => navigation.goBack()}>
           Back
         </Text>
-        <Text style={styles.headerText}>Homework</Text>
+        <Text style={styles.headerText}>Class List</Text>
       </View>
 
       <FlatList
@@ -50,7 +52,7 @@ const ClassList = ({navigation}) => {
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={styles.classStyle}
-            onPress={() => navigation.navigate('HomeWorkList',{classId:item._id})}>
+            onPress={() => navigation.navigate(from==1?'HomeWorkList':from==2?"EventList":"Gallery",{classId:item._id})}>
             <Text style={styles.textStyle}>{item.name}</Text>
           </TouchableOpacity>
         )}

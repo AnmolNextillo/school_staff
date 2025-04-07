@@ -69,7 +69,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('ClassList')}>
+              onPress={() => navigation.navigate('ClassList',{from:1})}>
               <HomeworkIcon />
               <Text style={styles.cardNameStyle}>HomeWork</Text>
             </TouchableOpacity>
@@ -78,13 +78,13 @@ const Home = ({navigation}) => {
           <View style={styles.CardStyle}>
             <TouchableOpacity
               style={styles.eventsCard}
-              onPress={() => navigation.navigate('Event')}>
+              onPress={() => navigation.navigate('ClassList',{from:2})}>
               <EventIcon />
               <Text style={styles.cardNameStyle}>Events</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('Test')}>
+              onPress={() => navigation.navigate('ClassList',{from:3})}>
               <Image
                 source={getImage('booking')}
                 style={styles.imageBoxStyle}

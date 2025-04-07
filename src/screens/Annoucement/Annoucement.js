@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   testList: {
     fontSize: 14,
-    marginBottom: 8,
+    marginBottom: 16,
     padding: 16,
     backgroundColor: appColors.white,
     borderRadius: 8,

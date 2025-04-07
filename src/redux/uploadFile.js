@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ApiBaseUrl, upload } from '../utils/Constants';
 
 // Async thunk for fetching data
 export const uploadFile = createAsyncThunk('uploadFile', async (image) => {
@@ -10,11 +9,17 @@ export const uploadFile = createAsyncThunk('uploadFile', async (image) => {
         "Content-Type": "multipart/form-data",
     }
     const formData = new FormData();
-    formData.append('myfile', image);
+    formData.append('myfile',  {
+        uri: image.uri,
+        name: image.fileName,
+        type: 'image/jpeg',
+      });
+    console.log("FormData ===> ",formData)
 
     try {
-        const url = ApiBaseUrl+upload
+        const url = "https://api.kcmschool.co.in/v1/staff/upload"
         const response = await axios.post(url, formData, { headers });
+        console.log("Upload file Response ===>",response.data)
         return response.data;
     } catch (error) {
         console.log("Upload Image Error ===> ", error.message)
@@ -22,7 +27,7 @@ export const uploadFile = createAsyncThunk('uploadFile', async (image) => {
     }
 });
 
-const uploadFileSlice = createSlice({
+const FileUploadSlice = createSlice({
     name: 'uploadFileReducer',
     initialState: {
         data: null,
@@ -52,6 +57,5 @@ const uploadFileSlice = createSlice({
     },
 });
 
-export const { clearUploadFileData } = uploadFileSlice.actions;
-export default uploadFileSlice.reducer;
-
+export const { clearUploadFileData } = FileUploadSlice.actions;
+export default FileUploadSlice.reducer;

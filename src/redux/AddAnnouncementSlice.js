@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { addAnnouncementApi, ApiBaseUrl } from "../utils/Constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const addAnnouncement = createAsyncThunk("addAnnouncement", async (payload) => {
   try {
@@ -12,6 +13,8 @@ export const addAnnouncement = createAsyncThunk("addAnnouncement", async (payloa
         Authorization:token
       },
     };
+
+     console.log("payload data add annouement===>", payload);
     const url = ApiBaseUrl + addAnnouncementApi;      
     const response = await axios.post(url, payload, config);
     console.log("Response data add announcement ===> ",response.data)

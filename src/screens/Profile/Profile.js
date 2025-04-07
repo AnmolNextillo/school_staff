@@ -18,6 +18,7 @@ import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearLogoutData, hitLogout } from '../../redux/LogoutSlice';
 import { hitProfile } from '../../redux/GetProfileSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Profile = ({ navigation }) => {
@@ -46,13 +47,16 @@ const Profile = ({ navigation }) => {
 
     const clearLocalData= async() =>{
       await AsyncStorage.clear()
+      navigation.navigate("Login")
+
+      dispatch(clearLogoutData())
     }
 
     useEffect(()=>{
       if(responseLogout!=null && responseLogout.status === 1){
-        navigation.navigate("Login")
-        dispatch(clearLogoutData())
+        
         clearLocalData()
+       
       }
     },[responseLogout])
 

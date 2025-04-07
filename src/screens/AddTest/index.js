@@ -22,7 +22,7 @@ import {hitClassList} from '../../redux/GetClassListSlice';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import {handleShowMessage} from '../../utils/Constants';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {uploadFile} from '../../redux/uploadFile';
+import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
 
 const AddTest = () => {
   const navigation = useNavigation();
@@ -31,7 +31,7 @@ const AddTest = () => {
   const responseSubject = useSelector(state => state.getSubjectReducer.data);
   const responseClasses = useSelector(state => state.getClassReducer.data);
   const responseAddTest = useSelector(state => state.addTestReducer.data);
-  const responseUploadFile = useSelector(state => state.addTestReducer.data);
+  const responseUploadFile = useSelector(state => state.uploadFileReducer.data);
 
   const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
@@ -79,8 +79,6 @@ const AddTest = () => {
           subjectId: subject,
           date: date,
           classId: selectedClass,
-          sectionId: '',
-          addedByStaffId: 1,
           media: '',
           totalMarks: totalMarks,
         };
@@ -96,7 +94,7 @@ const AddTest = () => {
   const handleImagePick = () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri);
+        setImageUri(response.assets[0]);
       }
     });
   };
@@ -108,32 +106,34 @@ const AddTest = () => {
       dispatch(clearAddTest());
     } else {
       if (responseAddTest != null) {
-        handleShowMessage(responseAddTest.message, 'danger');
+        // handleShowMessage(responseAddTest.message, 'danger');
       }
     }
   }, [responseAddTest]);
   useEffect(() => {
-    if (responseUploadFile != null && responseUploadFile.status === 1) {
+    console.log("responseUploadFile  ====> ",responseUploadFile )
+    if (responseUploadFile != null ) {
       if (title && subject && date && selectedClass && totalMarks) {
+        console.log("Inner")
         const payload = {
           title: title,
           subjectId: subject,
           date: date,
           classId: selectedClass,
-          sectionId: '',
-          addedByStaffId: '',
           media: responseUploadFile.Location,
           totalMarks: totalMarks,
         };
         console.log('Payload Add Test ====> ', payload);
         dispatch(hitAddTest(payload));
+        dispatch(clearUploadFileData())
       } else {
+        console.log("Else")
         // Alert.alert('Error', 'Please fill in all fields');
         handleShowMessage('Please fill in all fields', 'danger');
       }
     } else {
       if (responseUploadFile != null) {
-        handleShowMessage(responseUploadFile.message, 'danger');
+        // handleShowMessage(responseUploadFile.message, 'danger');
       }
     }
   }, [responseUploadFile]);
@@ -247,7 +247,7 @@ const AddTest = () => {
           </TouchableOpacity>
           {imageUri && (
             <Image
-              source={{uri: imageUri}}
+              source={{uri: imageUri.uri}}
               style={styles.imagePreview}
               resizeMode="center"
             />
