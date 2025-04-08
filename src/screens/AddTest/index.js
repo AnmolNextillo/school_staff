@@ -24,7 +24,10 @@ import {handleShowMessage} from '../../utils/Constants';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
 
-const AddTest = () => {
+const AddTest = ({route}) => {
+
+  const passedData = route?.params?.data;
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -43,6 +46,24 @@ const AddTest = () => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+
+  useEffect(() => {
+    if (passedData) {
+      setTitle(passedData.title || '');
+      setDate(passedData.date || '');
+      setTotalMarks(String(passedData.totalMarks || ''));
+      setDescription(passedData.description || '');
+      setImageUri(passedData.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${passedData.media}` } : null);
+  
+      if (passedData.classId) {
+        setSelectedClass(passedData.classId);
+      }
+  
+      if (passedData.subjectId) {
+        setSubject(passedData.subjectId);
+      }
+    }
+  }, [passedData]);
 
   useEffect(() => {
     dispatch(hitClassList());

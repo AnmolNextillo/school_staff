@@ -7,26 +7,28 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
-import {useDispatch, useSelector} from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import React, { useEffect, useState } from 'react';
+import { appColors } from '../../utils/color';
+import { useNavigation } from '@react-navigation/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import {
   addAnnouncement,
   clearAddAnnouncementData,
 } from '../../redux/AddAnnouncementSlice';
-import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
-import {hitClassList} from '../../redux/GetClassListSlice';
-import {hitSubjectList} from '../../redux/GetSujectListSlice';
-import {handleShowMessage} from '../../utils/Constants';
+import { clearUploadFileData, uploadFile } from '../../redux/uploadFile';
+import { hitClassList } from '../../redux/GetClassListSlice';
+import { hitSubjectList } from '../../redux/GetSujectListSlice';
+import { handleShowMessage } from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AddEvent = () => {
+const AddHomework = ({route}) => {
+
+  const item = route?.params?.data;
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -51,12 +53,30 @@ const AddEvent = () => {
   );
 
   useEffect(() => {
+    if (item) {
+      setTitle(item.title || '');
+      setSubject(item.subject || '');
+      setDate(item.date || '');
+      setDescription(item.description || '');
+      setImageUri(item.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}` } : null);
+
+      if (item.classId) {
+        setSelectedClass(item.classId);
+      }
+
+      if (item.subjectId) {
+        setSubject(item.subjectId);
+      }
+    }
+  }, [item]);
+
+  useEffect(() => {
     dispatch(hitClassList());
   }, []);
 
   useEffect(() => {
     if (selectedClass) {
-      const payload = {classId: selectedClass};
+      const payload = { classId: selectedClass };
       dispatch(hitSubjectList(payload));
     }
   }, [selectedClass]);
@@ -112,7 +132,7 @@ const AddEvent = () => {
 
   const handleImagePick = () => {
     console.log('launchImageLibrary ===>', launchImageLibrary);
-    launchImageLibrary({mediaType: 'photo'}, response => {
+    launchImageLibrary({ mediaType: 'photo' }, response => {
       if (response.assets && response.assets.length > 0) {
         setImageUri(response.assets[0]);
       }
@@ -160,8 +180,8 @@ const AddEvent = () => {
   }, [responseUploadFile]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View style={styles.headerContainer}>
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
@@ -209,10 +229,10 @@ const AddEvent = () => {
           <View
             style={[
               styles.input,
-              {flexDirection: 'row', alignContent: 'center'},
+              { flexDirection: 'row', alignContent: 'center' },
             ]}>
             <Text
-              style={{color: date ? appColors.black : appColors.grey, flex: 1}}>
+              style={{ color: date ? appColors.black : appColors.grey, flex: 1 }}>
               {date || 'Select Date'}
             </Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
@@ -249,7 +269,7 @@ const AddEvent = () => {
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
           {imageUri && (
-            <Image source={{uri: imageUri.uri}} style={styles.imagePreview} />
+            <Image source={{ uri: imageUri.uri }} style={styles.imagePreview} />
           )}
           <TouchableOpacity
             style={styles.button}
@@ -262,7 +282,7 @@ const AddEvent = () => {
   );
 };
 
-export default AddEvent;
+export default AddHomework;
 
 const styles = StyleSheet.create({
   headerContainer: {

@@ -69,7 +69,7 @@ const HomeWorkList = ({navigation,route}) => {
 
                   <TouchableOpacity
                     style={styles.card}
-                    onPress={() => navigation.navigate('HomeWork', {item})}>
+                    onPress={() => navigation.navigate('Homework', {item})}>
                     <Text style={styles.title}>{item.subject}</Text>
                     <Text
                       style={styles.description}

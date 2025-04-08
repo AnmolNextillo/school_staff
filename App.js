@@ -20,6 +20,7 @@ import EventDetail from './src/screens/EventDetail/EventDetail.js';
 import AddEvent from './src/screens/AddEvents/AddEvent.js';
 import EventList from './src/screens/EventList/Event.js';
 import Gallery from './src/screens/Gallery/Gallery.js';
+import Homework from './src/screens/Homework/index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ function App() {
         <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
         <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
         <Stack.Screen name="HomeWorkList" component={HomeWorkList} options={{title: 'HomeWorkList'}}/>
+        <Stack.Screen name="Homework" component={Homework} options={{title: 'Homework'}}/>
         <Stack.Screen name="AddHomework" component={AddHomework} options={{title: 'AddHomework'}}/>
         <Stack.Screen name="Annoucement" component={Annoucement} options={{ title: 'Annoucement' }} />
         <Stack.Screen name="AddAnnoucement" component={AddAnnoucement} options={{ title: 'AddAnnoucement' }} />
