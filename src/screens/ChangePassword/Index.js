@@ -112,7 +112,7 @@ import { clearChangePassword, hitChangePassword } from '../../redux/ChangePasswo
               />
             </View>
             <TouchableOpacity style={styles.changePasswordButtonViewStyle} onPress={()=>onChangeClick()}>
-              <Text style={styles.changePasswordButtonStyle}>Change</Text>
+              <Text style={styles.changePasswordButtonStyle}>Change Password</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
