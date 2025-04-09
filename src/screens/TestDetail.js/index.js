@@ -75,7 +75,7 @@ const TestDetail = ({navigation, route}) => {
           </Text>
           <Text style={styles.headerText}>{data.title}</Text>
         </View>
-        <View style={styles.viewStyle}>
+        <TouchableOpacity style={styles.viewStyle}  onPress={() => navigation.navigate('AddTest', {data : testData})}>
           <Text style={{fontWeight: '600'}}>Date: {testData!=null&&testData.date}</Text>
           <Text style={{fontWeight: '400',marginTop:8}}>Total Marks: <Text style={{fontWeight:"600"}}>{testData!=null&&testData.totalMarks}</Text></Text>
           <Text style={{fontWeight: '400',marginTop:8}}>Obtain Marks: <Text style={{fontWeight:"600"}}>{testData!=null&&testData.obtainedMarks}</Text></Text>
@@ -90,7 +90,7 @@ const TestDetail = ({navigation, route}) => {
           {/* <TouchableOpacity style={styles.acknowladgeStyle} onPress={()=>testData!=null&&testData.isReviewedByParent==0?onAckClick():handleShowMessage("Test already acknowladged.","success")}>
             <Text style={{color:appColors.white}}>{testData!=null&&testData.isReviewedByParent==0?"Acknowledge":"Acknowledged"}</Text>
           </TouchableOpacity> */}
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

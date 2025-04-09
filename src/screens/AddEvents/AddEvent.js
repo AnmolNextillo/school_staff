@@ -26,7 +26,10 @@ import {handleShowMessage} from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AddEvent = () => {
+const AddEvent = ({route}) => {
+
+  const item = route?.params?.data;
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -46,6 +49,23 @@ const AddEvent = () => {
     state => state.addAnnouncementReducer.data,
   );
   const responseUploadFile = useSelector(state => state.uploadFileReducer.data);
+
+   useEffect(() => {
+      if (item) {
+        setTitle(item.title || '');
+        setDate(item.date || '');
+        setDescription(item.description || '');
+        setImageUri(item.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}` } : null);
+    
+        if (item.classId) {
+          setSelectedClass(item.classId);
+        }
+    
+        if (item.subjectId) {
+          setSubject(item.subjectId);
+        }
+      }
+    }, [item]);
 
   useEffect(() => {
     dispatch(hitClassList());

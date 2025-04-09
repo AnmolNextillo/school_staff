@@ -1,11 +1,11 @@
-import {Linking, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import { Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect } from 'react';
-import {appColors} from '../../utils/color';
+import { appColors } from '../../utils/color';
 import { useDispatch } from 'react-redux';
 import { hitHomeWork } from '../../redux/HomeWorkSlice';
 import moment from 'moment';
 
-const Homework = ({navigation,route}) => {
+const Homework = ({ navigation, route }) => {
 
   const {data} = route.params
 
@@ -15,18 +15,18 @@ const Homework = ({navigation,route}) => {
     Linking.openURL(fileUrl).catch((err) => console.error("Failed to open URL:", err));
   };
 
-  
+
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
-            flexDirection: 'row', 
+            flexDirection: 'row',
             padding: 16,
             backgroundColor: appColors.white,
           }}>
           <Text
-            style={{color: appColors.primaryColor}}
+            style={{ color: appColors.primaryColor }}
             onPress={() => navigation.goBack()}>
             Back
           </Text>

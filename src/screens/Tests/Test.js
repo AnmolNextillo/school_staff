@@ -1,5 +1,4 @@
 import {
-  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -12,7 +11,6 @@ import {appColors} from '../../utils/color';
 import {useIsFocused, useNavigation} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {hitTests} from '../../redux/GetTestsSlice';
-import TestsIcon from '../../assets/svg/TestsIcons';
 import PlusIcon from '../../assets/svg/PlusIcon';
 
 const Test = () => {
