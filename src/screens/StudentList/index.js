@@ -38,7 +38,14 @@ const StudentList = () => {
     {id: '3', name: 'Aarav Thakur', photo: null},
     {id: '4', name: 'Viraaj', photo: null},
     {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
+    {id: '1', name: 'Jobanpreet Singh', photo: null},
+    {id: '2', name: 'Inaaya Arora', photo: null},
+    {id: '3', name: 'Aarav Thakur', photo: null},
+    {id: '4', name: 'Viraaj', photo: null},
+    {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
   ];
+
+  const handleSubmit = () => {};
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -59,7 +66,9 @@ const StudentList = () => {
         </View>
         <ScrollView style={{padding: 16}}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={studentData}
+            style={{paddingBottom: 32}}
             keyExtractor={item => item.id}
             renderItem={({item, index}) => (
               <View
@@ -85,7 +94,7 @@ const StudentList = () => {
                     }}>
                     {item.name}
                   </Text>
-                  <View style={{flexDirection:'row'}}>
+                  <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity style={{alignItems: 'flex-start'}}>
                       <Text
                         style={{
@@ -100,7 +109,7 @@ const StudentList = () => {
                         Present
                       </Text>
                     </TouchableOpacity>
-                    <View style={{flex:1}}/>
+                    <View style={{flex: 1}} />
                   </View>
                 </View>
 
@@ -111,6 +120,9 @@ const StudentList = () => {
             )}
           />
         </ScrollView>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Mark Attendence</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -153,5 +165,18 @@ const styles = StyleSheet.create({
     borderColor: appColors.black,
     borderRadius: 6,
     alignSelf: 'center',
+  },
+  button: {
+    backgroundColor: appColors.primaryColor,
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
+  buttonText: {
+    color: appColors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

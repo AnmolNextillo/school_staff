@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop:16,
     backgroundColor: appColors.white,
-    borderRadius: 16,
+    borderRadius: 8,
     padding: 16,
     borderWidth: 1,
     borderColor: appColors.primaryColor,

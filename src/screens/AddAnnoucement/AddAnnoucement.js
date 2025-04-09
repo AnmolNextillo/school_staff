@@ -172,7 +172,7 @@ const AddAnnoucement = () => {
                 <Picker.Item
                   key={item._id}
                   label={item.name}
-                  value={item._id}
+                  value={item.name}
                 />
               ))}
             </Picker>

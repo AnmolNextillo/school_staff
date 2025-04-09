@@ -165,10 +165,10 @@ const AddEvent = () => {
 
           <View style={styles.pickerContainer}>
             <Picker
-              selectedValue={subject}
+              selectedValue={selectedClass}
               style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
+              onValueChange={itemValue => setSelectedClass(itemValue)}>
+              {classList?.map(item => (
                 <Picker.Item
                   key={item._id}
                   label={item.name}
@@ -180,14 +180,14 @@ const AddEvent = () => {
 
           <View style={styles.pickerContainer}>
             <Picker
-              selectedValue={selectedClass}
+              selectedValue={subject}
               style={styles.picker}
-              onValueChange={itemValue => setSelectedClass(itemValue)}>
-              {classList?.map(item => (
+              onValueChange={itemValue => setSubject(itemValue)}>
+              {subjectList?.map(item => (
                 <Picker.Item
                   key={item._id}
                   label={item.name}
-                  value={item._id}
+                  value={item.name}
                 />
               ))}
             </Picker>

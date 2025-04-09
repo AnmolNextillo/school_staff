@@ -26,7 +26,7 @@ import {handleShowMessage} from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AddEvent = () => {
+const AddHomework = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -166,7 +166,7 @@ const AddEvent = () => {
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Add HomeWork</Text>
+          <Text style={styles.headerText}>Add Homework</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
           {/* <TextInput
@@ -178,25 +178,24 @@ const AddEvent = () => {
 
           <View style={styles.pickerContainer}>
             <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
-          </View>
-
-          <View style={styles.pickerContainer}>
-            <Picker
               selectedValue={selectedClass}
               style={styles.picker}
               onValueChange={itemValue => setSelectedClass(itemValue)}>
               {classList?.map(item => (
+                <Picker.Item
+                  key={item._id}
+                  label={item.name}
+                  value={item.name}
+                />
+              ))}
+            </Picker>
+          </View>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={subject}
+              style={styles.picker}
+              onValueChange={itemValue => setSubject(itemValue)}>
+              {subjectList?.map(item => (
                 <Picker.Item
                   key={item._id}
                   label={item.name}
@@ -254,7 +253,7 @@ const AddEvent = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleSubmit()}>
-            <Text style={styles.buttonText}>Add Event</Text>
+            <Text style={styles.buttonText}>Add Homework</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -262,7 +261,7 @@ const AddEvent = () => {
   );
 };
 
-export default AddEvent;
+export default AddHomework;
 
 const styles = StyleSheet.create({
   headerContainer: {
