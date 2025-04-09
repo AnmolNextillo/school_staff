@@ -13,6 +13,7 @@ import getAnnouncementDetailReducer from './GetAnnouncementDetailSlice';
 import uploadFileReducer from './uploadFile';
 import getHomeworkReducer from './GetHomeworkSlice';
 import galleryMediaReducer from './GalleryMediaSlice';
+import changePasswordReducer from './ChangePasswordSlice';
 
 export const store = configureStore({
     reducer:{
@@ -30,5 +31,6 @@ export const store = configureStore({
         uploadFileReducer: uploadFileReducer,
         getHomeworkReducer: getHomeworkReducer,
         galleryMediaReducer: galleryMediaReducer,
+        changePasswordReducer: changePasswordReducer,
     }
 })
