@@ -7,32 +7,32 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
 import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
 import HomeworkIcon from '../../assets/svg/HomeworkIcon';
 import AnnoucementIcon from '../../assets/svg/AnnoucementIcon';
 import EventIcon from '../../assets/svg/EventIcon';
-import {useNavigation} from '@react-navigation/core';
 import {getImage} from '../../utils/getImages';
+import {hitProfile} from '../../redux/GetProfileSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Home = ({navigation}) => {
+  const dispatch = useDispatch();
 
-  // const dispatch = useDispatch()
+  const responseProfile = useSelector(state => state.getProfileReducer.data);
 
-  // const responseProfile = useSelector((state) => state.getProfileReducer.data)
+  const [profileData, setProfileData] = useState(null);
 
-  // const [profileData,setProfileData] = useState(null)
+  useEffect(() => {
+    dispatch(hitProfile());
+  }, []);
 
-  //   useEffect(()=>{
-  //     dispatch(hitProfile())
-  //   },[])
-
-  //     useEffect(()=>{
-  //       if(responseProfile!=null && responseProfile.status == 1){
-  //         setProfileData(responseProfile.data)
-  //       }
-  //     },[responseProfile])
+  useEffect(() => {
+    if (responseProfile != null && responseProfile.status == 1) {
+      setProfileData(responseProfile.data);
+    }
+  }, [responseProfile]);
 
   return (
     <SafeAreaView style={styles.containerStyle}>
@@ -46,13 +46,12 @@ const Home = ({navigation}) => {
               <HomeProfileIcon style={{fill: appColors.white}} />
             </View>
             <Text style={styles.userName}>
-              Gurmandeep Singh
+              {profileData!=null&&profileData.name}
               {/* {profileData!=null?profileData.name:""} */}
             </Text>
-            <Text style={styles.admissionText}>
+            {/* <Text style={styles.admissionText}>
               Class : 1st
-              {/* {profileData!=null?profileData.classId.name:""} */}
-            </Text>
+            </Text> */}
             {/* <Text style={styles.admissionText}>Parent</Text> */}
           </View>
         </View>
@@ -69,7 +68,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('ClassList',{from:1})}>
+              onPress={() => navigation.navigate('ClassList', {from: 1})}>
               <HomeworkIcon />
               <Text style={styles.cardNameStyle}>HomeWork</Text>
             </TouchableOpacity>
@@ -78,13 +77,13 @@ const Home = ({navigation}) => {
           <View style={styles.CardStyle}>
             <TouchableOpacity
               style={styles.eventsCard}
-              onPress={() => navigation.navigate('ClassList',{from:2})}>
+              onPress={() => navigation.navigate('ClassList', {from: 2})}>
               <EventIcon />
               <Text style={styles.cardNameStyle}>Events</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cardBox}
-              onPress={() => navigation.navigate('ClassList',{from:3})}>
+              onPress={() => navigation.navigate('ClassList', {from: 3})}>
               <Image
                 source={getImage('booking')}
                 style={styles.imageBoxStyle}

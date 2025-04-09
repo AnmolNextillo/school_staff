@@ -1,22 +1,25 @@
 import {
+  Dimensions,
   FlatList,
   Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
 import {getImage} from '../../utils/getImages';
-import { hitHomework } from '../../redux/GetHomeworkSlice';
-import { useDispatch } from 'react-redux';
+import {hitHomework} from '../../redux/GetHomeworkSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import PlusIcon from '../../assets/svg/PlusIcon';
+import {useIsFocused} from '@react-navigation/core';
 
 const bookingImg = imageName => {
   const images = {
-    booking: getImage('booking'), 
+    booking: getImage('booking'),
     image1: getImage('booking'),
     image2: getImage('booking'),
     image3: getImage('booking'),
@@ -24,26 +27,40 @@ const bookingImg = imageName => {
   return images[imageName];
 };
 
-const Gallery = ({navigation,route}) => {
 
-  const {classId} = route.params;
+const { width } = Dimensions.get('window');
+const IMAGE_SIZE = (width - 72) / 3; // 2 columns + spacing
 
-  const dispatch = useDispatch()
+const Gallery = ({navigation, route}) => {
+  const {classId,data} = route.params;
 
-  const [imageData,setImageData] = useState(null)
 
-    useEffect(() => {
-      const payload = {
-        classId:classId,
-        type:3
-      }
-      dispatch(hitHomework(payload));
-    }, []);
+  const dispatch = useDispatch();
+  const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
+
+  const isFocused = useIsFocused();
+
+  const [imageData, setImageData] = useState(null);
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     const payload = {
+  //       classId: classId,
+  //       type: 3,
+  //     };
+  //     dispatch(hitHomework(payload));
+  //   }
+  // }, [isFocused]);
+
+  useEffect(() => {
+    // if (responseHomeWork != null && responseHomeWork.status == 1) {
+      setImageData(data.galleryMedia);
+    // }
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1}}>
-        {' '}
         <View
           style={{
             flexDirection: 'row',
@@ -57,7 +74,7 @@ const Gallery = ({navigation,route}) => {
           </Text>
           <Text style={styles.headerText}>Gallery</Text>
         </View>
-          {/* <Text style={{fontSize: 16, marginBottom: 10, fontWeight: '500'}}>
+        {/* <Text style={{fontSize: 16, marginBottom: 10, fontWeight: '500'}}>
             Celebrations
           </Text>
           <Text style={{fontSize: 14, marginBottom: 10}}>
@@ -66,24 +83,28 @@ const Gallery = ({navigation,route}) => {
           <Text style={{fontSize: 14, marginBottom: 10}}>
             abcdefghijklmnopqrstuvwxyz
           </Text> */}
-
-          <View style={styles.imageChild}>
-            {imageData!=null ? <FlatList
-              data={imageData}
-              renderItem={({item}) => (
-                <View style={styles.imageContainer}>
-                  <Image
-                    source={bookingImg(item)}
-                    style={styles.imageBoxStyle}
-                    resizeMode="contain"
-                  />
-                </View>
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2} // Show 2 images per row
-            />:
-            <Text>Empty Gallery</Text>}
-          </View>
+        <View style={styles.imageChild}>
+          {imageData != null && imageData.length>0 ? (
+             <FlatList
+             data={imageData}
+             keyExtractor={(item, index) => index.toString()}
+             numColumns={3}
+             showsVerticalScrollIndicator={false}
+             renderItem={({ item }) => (
+               <TouchableOpacity style={styles.imageContainer} onPress={()=>navigation.navigate("ImageViewScreen",{image:item})}>
+                 <Image
+                   source={{ uri: item }}
+                   style={styles.imageBox}
+                   resizeMode="cover"
+                 />
+               </TouchableOpacity>
+             )}
+           />
+          ) : (
+            <Text>Empty Gallery</Text>
+          )}
+        </View>
+    
       </View>
     </SafeAreaView>
   );
@@ -102,19 +123,45 @@ const styles = StyleSheet.create({
   },
   imageChild: {
     width: '100%',
-    margin: 16,
-    alignItems:'center',
-    flex:1,
-    justifyContent:'center'
+    marginTop: 1,
+    padding:16,
+    backgroundColor:appColors.white,
 
-  },
-  imageBoxStyle: {
-    width: 150,
-    height: 150,    
+    flex: 1,
+    justifyContent: 'center',
   },
   imageContainer: {
-    flex: 1,
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
+    margin: 6,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#f0f0f0',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+  },
+  imageBox: {
+    width: '100%',
+    height: '100%',
+  },
+  fab: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+    backgroundColor: appColors.primaryColor,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
     alignItems: 'center',
-    margin: 5, 
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 4,
+    elevation: 5,
+    padding: 16,
   },
 });

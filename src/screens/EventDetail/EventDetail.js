@@ -44,7 +44,7 @@ const EventDetail = ({navigation, route}) => {
               padding: 16,
               borderRadius: 16,
             }}>
-            <Text style={styles.schoolText}>{item.subject}</Text>
+            <Text style={styles.schoolText}>{item.title}</Text>
             {/* <Text style={{fontSize: 14, marginBottom: 8}}>
             <Text style={{fontWeight: '500'}}>Group : 
               </Text> abcdefghijklmnopqrstuvwxyz</Text> */}

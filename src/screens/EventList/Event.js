@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -13,22 +14,26 @@ import {useEffect, useState} from 'react';
 import moment from 'moment';
 import PlusIcon from '../../assets/svg/PlusIcon';
 import {hitHomework} from '../../redux/GetHomeworkSlice';
+import {useIsFocused} from '@react-navigation/core';
 
-const EventList = ({navigation,route}) => {
-
+const EventList = ({navigation, route}) => {
   const {classId} = route.params;
 
   const dispatch = useDispatch();
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
   const [homeWork, setHomeWork] = useState(null);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    const payload = {
-      classId:classId,
-      type:2
+    if (isFocused) {
+      const payload = {
+        classId: classId,
+        type: 2,
+      };
+      dispatch(hitHomework(payload));
     }
-    dispatch(hitHomework(payload));
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (responseHomeWork != null && responseHomeWork.status == 1) {
@@ -69,7 +74,7 @@ const EventList = ({navigation,route}) => {
                   <TouchableOpacity
                     style={styles.card}
                     onPress={() => navigation.navigate('EventDetail', {item})}>
-                    <Text style={styles.title}>{item.subject}</Text>
+                    <Text style={styles.title}>{item.title}</Text>
                     <Text
                       style={styles.description}
                       numberOfLines={3}

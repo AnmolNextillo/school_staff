@@ -87,7 +87,7 @@ const AddAnnoucement = () => {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: 3,
+          title: "Announcement",
           subjectId: subject,
           date: date,
           description: description,
@@ -131,7 +131,7 @@ const AddAnnoucement = () => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
       if (subject && date && selectedClass) {
         const payload = {
-          title: 3,
+          title: "Announcement",
           subjectId: subject,
           date: date,
           classId: selectedClass,
@@ -241,7 +241,7 @@ const AddAnnoucement = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleSubmit()}>
-            <Text style={styles.buttonText}>Add Event</Text>
+            <Text style={styles.buttonText}>Add Annoucement</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>

@@ -20,6 +20,10 @@ import EventDetail from './src/screens/EventDetail/EventDetail.js';
 import AddEvent from './src/screens/AddEvents/AddEvent.js';
 import EventList from './src/screens/EventList/Event.js';
 import Gallery from './src/screens/Gallery/Gallery.js';
+import ImageUploadScreen from './src/screens/ImageUploadScreen/index.js';
+import Homework from './src/screens/Homework/index.js';
+import GallerySubjectList from './src/screens/GallerySubjectList/index.js';
+import ImageViewScreen from './src/screens/ImageViewScreen.js/index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +45,7 @@ function App() {
         <Stack.Screen name="AddTest" component={AddTest} options={{title: 'AddTest'}}/>
         <Stack.Screen name="StudentList" component={StudentList} options={{title: 'StudentList'}}/>
         <Stack.Screen name="HomeWorkList" component={HomeWorkList} options={{title: 'HomeWorkList'}}/>
+        <Stack.Screen name="Homework" component={Homework} options={{title: 'Homework'}}/>
         <Stack.Screen name="AddHomework" component={AddHomework} options={{title: 'AddHomework'}}/>
         <Stack.Screen name="Annoucement" component={Annoucement} options={{ title: 'Annoucement' }} />
         <Stack.Screen name="AddAnnoucement" component={AddAnnoucement} options={{ title: 'AddAnnoucement' }} />
@@ -51,6 +56,9 @@ function App() {
         <Stack.Screen name="EventDetail" component={EventDetail} options={{ title: 'EventDetail' }} />
         <Stack.Screen name="AddEvent" component={AddEvent} options={{ title: 'AddEvent' }} />
         <Stack.Screen name="Gallery" component={Gallery} options={{ title: 'Gallery' }} />
+        <Stack.Screen name="GallerySubjectList" component={GallerySubjectList} options={{ title: 'GallerySubjectList' }} />
+        <Stack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{ title: 'ImageUploadScreen' }} />
+        <Stack.Screen name="ImageViewScreen" component={ImageViewScreen} options={{ title: 'ImageViewScreen' }} />
       </Stack.Navigator>
     </NavigationContainer>
     <FlashMessage position="bottom" />

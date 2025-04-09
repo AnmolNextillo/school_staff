@@ -87,7 +87,7 @@ const AddEvent = () => {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: 2,
+          title: "Event",
           subjectId: subject,
           date: date,
           description: description,
@@ -131,7 +131,7 @@ const AddEvent = () => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
       if (subject && date && selectedClass) {
         const payload = {
-          title: 2,
+          title: "Event",
           subjectId: subject,
           date: date,
           classId: selectedClass,

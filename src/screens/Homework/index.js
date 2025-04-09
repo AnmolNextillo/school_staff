@@ -7,9 +7,9 @@ import moment from 'moment';
 
 const Homework = ({navigation,route}) => {
 
-  const {item} = route.params
+  const {data} = route.params
 
-  console.log("Data ===> ",item)
+  console.log("Data ===> ",data)
 
   const openLink = (fileUrl) => {
     Linking.openURL(fileUrl).catch((err) => console.error("Failed to open URL:", err));
@@ -36,15 +36,15 @@ const Homework = ({navigation,route}) => {
           <View style={{backgroundColor:appColors.white,padding:16,borderRadius:16}}>
 
           
-          <Text style={styles.schoolText}>{item.subject}</Text>
+          <Text style={styles.schoolText}>{data.subject}</Text>
           {/* <Text style={{fontSize: 14, marginBottom: 8}}>
             <Text style={{fontWeight: '500'}}>Group : 
               </Text> abcdefghijklmnopqrstuvwxyz</Text> */}
             
-          <Text style={styles.subjectText}>{item.description}</Text>
-          <Text style={styles.subjectText}><Text style={{fontWeight: '500'}}>Date : </Text>{moment(item.date).format('MMM D, YYYY')}</Text>
+          <Text style={styles.subjectText}>{data.description}</Text>
+          <Text style={styles.subjectText}><Text style={{fontWeight: '500'}}>Date : </Text>{moment(data.date).format('MMM D, YYYY')}</Text>
           <Text style={styles.LinkText}>Attachment Link</Text>
-          <Text style={[styles.subjectText,{color:appColors.blue}]} onPress={()=>openLink("https://school-project-varun.s3.ap-south-1.amazonaws.com/"+item.media)}>https://school-project-varun.s3.ap-south-1.amazonaws.com/+{item.media}</Text>
+          <Text style={[styles.subjectText,{color:appColors.blue}]} onPress={()=>openLink("https://school-project-varun.s3.ap-south-1.amazonaws.com/"+data.media)}>https://school-project-varun.s3.ap-south-1.amazonaws.com/+{data.media}</Text>
           <Text style={styles.LinkText}>Link</Text>
           <Text style={styles.subjectText}>---</Text>
           </View>

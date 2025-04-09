@@ -48,15 +48,12 @@ const Profile = ({ navigation }) => {
     const clearLocalData= async() =>{
       await AsyncStorage.clear()
       navigation.navigate("Login")
-
       dispatch(clearLogoutData())
     }
 
     useEffect(()=>{
       if(responseLogout!=null && responseLogout.status === 1){
-        
         clearLocalData()
-       
       }
     },[responseLogout])
 
@@ -72,12 +69,12 @@ const Profile = ({ navigation }) => {
                             <HomeProfileIcon style={{ fill: appColors.white }} />
                         </View>
                         <Text style={styles.userName}>
-                            Gurmandeep Singh
+                          {profileData!=null&&profileData.name}
                             {/* {profileData != null ? profileData.name : ""} */}
                         </Text>
-                        <Text style={styles.admissionText}>Class : 1st
-                            {/* {profileData != null ? profileData.classId.name : ""} */}
-                        </Text>
+                        {/* <Text style={styles.admissionText}>Class : 1st
+                            {profileData != null ? profileData.classId.name : ""}
+                        </Text> */}
                         {/* <Text style={styles.admissionText}>Profile</Text> */}
                     </View>
                 </View>
@@ -146,7 +143,7 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 18,
         marginBottom: 6,
-        color: appColors.white,
+        color: appColors.primaryColor,
         fontWeight: '500',
     },
     admissionText: {

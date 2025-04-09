@@ -14,22 +14,26 @@ import {useEffect, useState} from 'react';
 import moment from 'moment';
 import PlusIcon from '../../assets/svg/PlusIcon';
 import {hitHomework} from '../../redux/GetHomeworkSlice';
+import {useIsFocused} from '@react-navigation/core';
 
-const HomeWorkList = ({navigation,route}) => {
-
+const HomeWorkList = ({navigation, route}) => {
   const {classId} = route.params;
 
   const dispatch = useDispatch();
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
   const [homeWork, setHomeWork] = useState(null);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    const payload = {
-      classId:classId,
-      type:1
+    if (isFocused) {
+      const payload = {
+        classId: classId,
+        type: 1,
+      };
+      dispatch(hitHomework(payload));
     }
-    dispatch(hitHomework(payload));
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (responseHomeWork != null && responseHomeWork.status == 1) {
@@ -56,8 +60,8 @@ const HomeWorkList = ({navigation,route}) => {
         <ScrollView style={{padding: 16}}>
           <View style={styles.container}>
             {homeWork != null &&
-              homeWork.map(item => (
-                <TouchableOpacity style={styles.container}>
+              homeWork.map((item,index) => (
+                <TouchableOpacity style={styles.container} key={index}>
                   <View style={styles.dateContainer}>
                     {/* <MaterialIcons name="event" size={16} color="#3b82f6" /> */}
                     <View style={styles.dotedLine}></View>
@@ -69,7 +73,8 @@ const HomeWorkList = ({navigation,route}) => {
 
                   <TouchableOpacity
                     style={styles.card}
-                    onPress={() => navigation.navigate('HomeWork', {item})}>
+                    onPress={() => navigation.navigate('Homework', {data:item})}
+                    >
                     <Text style={styles.title}>{item.subject}</Text>
                     <Text
                       style={styles.description}

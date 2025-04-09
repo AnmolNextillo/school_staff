@@ -47,7 +47,7 @@ const AddEvent = () => {
     state => state.addAnnouncementReducer.data,
   );
   const responseUploadFile = useSelector(
-    state => state.addAnnouncementReducer.data,
+    state => state.uploadFileReducer.data,
   );
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const AddEvent = () => {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: 1,
+          title: "Homework",
           subjectId: subject,
           date: date,
           description: description,
@@ -139,7 +139,7 @@ const AddEvent = () => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
       if (subject && date && selectedClass) {
         const payload = {
-          title: 1,
+          title: "Homework",
           subjectId: subject,
           date: date,
           classId: selectedClass,
@@ -153,9 +153,9 @@ const AddEvent = () => {
         handleShowMessage('Please fill in all fields', 'danger');
       }
     } else {
-      if (responseUploadFile != null) {
-        handleShowMessage(responseUploadFile.message, 'danger');
-      }
+      // if (responseUploadFile != null) {
+      //   handleShowMessage(responseUploadFile.message, 'danger');
+      // }
     }
   }, [responseUploadFile]);
 

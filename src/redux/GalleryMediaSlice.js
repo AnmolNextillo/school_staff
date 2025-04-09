@@ -1,10 +1,10 @@
 // src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ApiBaseUrl,  profile } from "../utils/Constants";
+import { ApiBaseUrl, galleryMedia } from "../utils/Constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const hitProfile = createAsyncThunk("hitProfile", async (payload) => {
+export const hitGalleryMedia = createAsyncThunk("hitGalleryMedia", async (payload) => {
   try {
 
     const token = await AsyncStorage.getItem('token');
@@ -14,41 +14,44 @@ export const hitProfile = createAsyncThunk("hitProfile", async (payload) => {
         Authorization:token
       },
     };
-    const url = ApiBaseUrl + profile;      
-    const response = await axios.get(url,config);
-    console.log("Response ===> ",response.data)
+
+    console.log("Config ===> ",config)
+    const url = ApiBaseUrl + galleryMedia;      
+    const response = await axios.post(url,payload,config);
+    console.log("Response Add Test===> ",response.data)
     return response.data;
   } catch (error) {
+    console.log("Error ===> ",error)
     throw error.response.data;
   }
 });
 
-const GetPRofileSlice = createSlice({
-  name: "getProfileReducer",
+const GalleryMediaSlice = createSlice({
+  name: "galleryMediaReducer",
 
   initialState: {
     isLoading: false,
     data: null,
   },
   reducers: {
-    clearProfile: (state) => {
+    clearGalleryMedia: (state) => {
       state.data = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(hitProfile.pending, (state) => {
+      .addCase(hitGalleryMedia.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(hitProfile.fulfilled, (state, action) => {
+      .addCase(hitGalleryMedia.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(hitProfile.rejected, (state) => {
+      .addCase(hitGalleryMedia.rejected, (state) => {
         state.isError = false;
       });
   },
 });
 
-export const { clearProfile } = GetPRofileSlice.actions;
-export default GetPRofileSlice.reducer;
+export const { clearGalleryMedia } = GalleryMediaSlice.actions;
+export default GalleryMediaSlice.reducer;
