@@ -9,6 +9,7 @@ export const appColors = {
     red: '#FF0000',
     yellow: '#ffcc66',
     green: '#00e600',
+    success_green:"#5cb85c",
     transparent:"#808080",
     lightGray:"#C1BEB9",
     blue:"#0000FF",

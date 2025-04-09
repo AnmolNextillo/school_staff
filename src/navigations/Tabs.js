@@ -10,6 +10,7 @@ import NotificationIcon from '../assets/svg/NotificationIcon';
 import ProfileIcon from '../assets/svg/ProfileIcon';
 import { appColors } from '../utils/color';
 import Profile from '../screens/Profile/Profile';
+import TestIcon from '../assets/svg/TestIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +72,7 @@ const Tabs = () => {
                 }}
                 resizeMode="contain"
               /> */}
-              <MassageIcon
+              <TestIcon
                 stroke={focused ? appColors.primaryColor : appColors.black}
               />
               <Text

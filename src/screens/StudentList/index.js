@@ -89,7 +89,7 @@ const StudentList = () => {
                     <TouchableOpacity style={{alignItems: 'flex-start'}}>
                       <Text
                         style={{
-                          backgroundColor: appColors.green,
+                          backgroundColor: appColors.success_green,
                           width: 80,
                           textAlign: 'center',
                           margin: 8,
