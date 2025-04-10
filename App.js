@@ -24,6 +24,8 @@ import ImageUploadScreen from './src/screens/ImageUploadScreen/index.js';
 import Homework from './src/screens/Homework/index.js';
 import GallerySubjectList from './src/screens/GallerySubjectList/index.js';
 import ImageViewScreen from './src/screens/ImageViewScreen.js/index.js';
+import ChangePassword from './src/screens/ChangePassword/Index.js';
+import Session from './src/screens/Session/Index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +61,8 @@ function App() {
         <Stack.Screen name="GallerySubjectList" component={GallerySubjectList} options={{ title: 'GallerySubjectList' }} />
         <Stack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{ title: 'ImageUploadScreen' }} />
         <Stack.Screen name="ImageViewScreen" component={ImageViewScreen} options={{ title: 'ImageViewScreen' }} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'ChangePassword' }} />
+        <Stack.Screen name="Session" component={Session} options={{ title: 'Session' }} />
       </Stack.Navigator>
     </NavigationContainer>
     <FlashMessage position="bottom" />

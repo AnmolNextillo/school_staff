@@ -21,8 +21,10 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const loginResponse = useSelector(state => state.loginReducer.data);
 
-  const [email, setEmail] = useState('manishseera@gmail.com');
-  const [password, setPassword] = useState('123456');
+  // const [email, setEmail] = useState('manishseera@gmail.com');
+  // const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

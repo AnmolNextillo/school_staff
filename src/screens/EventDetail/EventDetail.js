@@ -8,12 +8,11 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { appColors } from '../../utils/color';
+import {appColors} from '../../utils/color';
 import moment from 'moment';
 
-const EventDetail = ({ navigation, route }) => {
-
-  const { item } = route.params;
+const EventDetail = ({navigation, route}) => {
+  const {item} = route.params;
 
   console.log('Data ===> ', item);
 
@@ -24,8 +23,8 @@ const EventDetail = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1}}>
         <View
           style={{
             flexDirection: 'row',
@@ -33,13 +32,13 @@ const EventDetail = ({ navigation, route }) => {
             backgroundColor: appColors.white,
           }}>
           <Text
-            style={{ color: appColors.primaryColor }}
+            style={{color: appColors.primaryColor}}
             onPress={() => navigation.goBack()}>
             Back
           </Text>
           <Text style={styles.headerText}>Event Details</Text>
         </View>
-        <ScrollView style={{ padding: 16 }}>
+        <ScrollView style={{padding: 16}}>
           <TouchableOpacity
             style={{
               backgroundColor: appColors.white,
@@ -53,22 +52,24 @@ const EventDetail = ({ navigation, route }) => {
 
             <Text style={styles.subjectText}>{item.description}</Text>
             <Text style={styles.subjectText}>
-              <Text style={{ fontWeight: '500' }}>Date : </Text>
+              <Text style={{fontWeight: '500'}}>Date : </Text>
               {moment(item.date).format('MMM D, YYYY')}
             </Text>
-            {item.media != "" && <>
-              <Text style={styles.LinkText}>Attachment Link</Text>
-              <Text
-                style={[styles.subjectText, { color: appColors.blue }]}
-                onPress={() =>
-                  openLink(
-                    'https://school-project-varun.s3.ap-south-1.amazonaws.com/' +
-                    item.media,
-                  )
-                }>
-                {`https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}`}
-              </Text>
-            </>}
+            {item.media != '' && (
+              <>
+                <Text style={styles.LinkText}>Attachment Link</Text>
+                <Text
+                  style={[styles.subjectText, {color: appColors.blue}]}
+                  onPress={() =>
+                    openLink(
+                      'https://school-project-varun.s3.ap-south-1.amazonaws.com/' +
+                        item.media,
+                    )
+                  }>
+                  {`https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}`}
+                </Text>
+              </>
+            )}
 
             <Text style={styles.LinkText}>Link</Text>
             <Text style={styles.subjectText}>---</Text>

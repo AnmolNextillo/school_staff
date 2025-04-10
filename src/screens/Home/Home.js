@@ -16,6 +16,7 @@ import EventIcon from '../../assets/svg/EventIcon';
 import {getImage} from '../../utils/getImages';
 import {hitProfile} from '../../redux/GetProfileSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import GalleryIcon from '../../assets/svg/GalleryIcon';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
@@ -84,11 +85,7 @@ const Home = ({navigation}) => {
             <TouchableOpacity
               style={styles.cardBox}
               onPress={() => navigation.navigate('ClassList', {from: 3})}>
-              <Image
-                source={getImage('booking')}
-                style={styles.imageBoxStyle}
-                resizeMode="contain"
-              />
+              <GalleryIcon/>
               <Text style={styles.cardNameStyle}>Gallery</Text>
             </TouchableOpacity>
           </View>

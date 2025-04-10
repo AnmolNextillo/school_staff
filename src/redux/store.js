@@ -13,6 +13,11 @@ import getAnnouncementDetailReducer from './GetAnnouncementDetailSlice';
 import uploadFileReducer from './uploadFile';
 import getHomeworkReducer from './GetHomeworkSlice';
 import galleryMediaReducer from './GalleryMediaSlice';
+import changePasswordReducer from './ChangePasswordSlice';
+import getAttendenceReducer from './GetAttendenceSlice';
+import getAttendenceDetailsReducer from './GetAttendanceDetailsSlice';
+import updateAttendenceReducer from './UpdateAttendanceDetailsSlice';
+import markAttendanceReducer from './MarkFinalAttendanceSlice';
 
 export const store = configureStore({
     reducer:{
@@ -30,5 +35,10 @@ export const store = configureStore({
         uploadFileReducer: uploadFileReducer,
         getHomeworkReducer: getHomeworkReducer,
         galleryMediaReducer: galleryMediaReducer,
+        changePasswordReducer: changePasswordReducer,
+        getAttendenceReducer: getAttendenceReducer,
+        getAttendenceDetailsReducer: getAttendenceDetailsReducer,
+        updateAttendenceReducer: updateAttendenceReducer,
+        markAttendanceReducer: markAttendanceReducer,
     }
 })

@@ -13,39 +13,89 @@ import {useNavigation} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
 //   import { hitMyClassMate } from '../../redux/MyClassMateSlice';
 import HomeProfileIcon from '../../assets/svg/HomeProfileIcon';
+import { hitAttendenceDetials } from '../../redux/GetAttendanceDetailsSlice';
+import { hitUpdateAttendence } from '../../redux/UpdateAttendanceDetailsSlice';
+import { clearMarkAttendance, hitMarkAttendance } from '../../redux/MarkFinalAttendanceSlice';
+import { handleShowMessage } from '../../utils/Constants';
 
-const StudentList = () => {
-  const navigation = useNavigation();
+const StudentList = ({navigation,route}) => {
+
   const dispatch = useDispatch();
 
-  // const [myClassmates, setMyClassmates] = useState(null)
+  const {classId} = route.params
 
-  // const responseClassMates = useSelector((state) => state.myClassMateReducer.data)
+  const [studentData, setStudentData] = useState(null)
 
-  // useEffect(() => {
-  //   dispatch(hitMyClassMate())
-  // }, [])
+  const responseAttendanceDetails = useSelector((state) => state.getAttendenceDetailsReducer.data)
+  const responseUpdateAttendance = useSelector((state) => state.updateAttendenceReducer.data)
+  const responseMarkAttendance = useSelector((state) => state.markAttendanceReducer.data)
 
-  // useEffect(() => {
-  //   if (responseClassMates != null && responseClassMates.status === 1) {
-  //     setMyClassmates(responseClassMates.data)
-  //   }
-  // }, [responseClassMates])
+  useEffect(() => {
+    const payload = {
+      _id:classId
+    }
+    dispatch(hitAttendenceDetials(payload))
+  }, [])
 
-  const studentData = [
-    {id: '1', name: 'Jobanpreet Singh', photo: null},
-    {id: '2', name: 'Inaaya Arora', photo: null},
-    {id: '3', name: 'Aarav Thakur', photo: null},
-    {id: '4', name: 'Viraaj', photo: null},
-    {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
-    {id: '1', name: 'Jobanpreet Singh', photo: null},
-    {id: '2', name: 'Inaaya Arora', photo: null},
-    {id: '3', name: 'Aarav Thakur', photo: null},
-    {id: '4', name: 'Viraaj', photo: null},
-    {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
-  ];
+  useEffect(() => {
+    console.log("Response responseAttendanceDetails===> ",responseAttendanceDetails);
+    if (responseAttendanceDetails != null && responseAttendanceDetails.status === 1) {
+    
+      setStudentData(responseAttendanceDetails.data)
+    }
+  }, [responseAttendanceDetails])
 
-  const handleSubmit = () => {};
+  // const studentData = [
+  //   {id: '1', name: 'Jobanpreet Singh', photo: null},
+  //   {id: '2', name: 'Inaaya Arora', photo: null},
+  //   {id: '3', name: 'Aarav Thakur', photo: null},
+  //   {id: '4', name: 'Viraaj', photo: null},
+  //   {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
+  //   {id: '1', name: 'Jobanpreet Singh', photo: null},
+  //   {id: '2', name: 'Inaaya Arora', photo: null},
+  //   {id: '3', name: 'Aarav Thakur', photo: null},
+  //   {id: '4', name: 'Viraaj', photo: null},
+  //   {id: '5', name: 'Gurniwaz Singh Samagh', photo: null},
+  // ];
+
+  const handleSubmit = () => {
+    const payload = {
+      id:classId
+    }
+
+    dispatch(hitMarkAttendance(payload))
+  };
+
+  const changeAttendance = (item) =>{
+    const payload = {
+      id:item._id,
+      status:item.status==1?2:1
+    }
+
+    dispatch(hitUpdateAttendence(payload))
+  }
+
+  useEffect(()=>{
+    console.log("responseUpdateAttendance ====> ",responseUpdateAttendance)
+    if(responseUpdateAttendance!=null && responseUpdateAttendance.status == 1){
+      const payload = {
+        _id:classId
+      }
+      dispatch(hitAttendenceDetials(payload))
+    }
+  },[responseUpdateAttendance])
+
+  useEffect(()=>{
+
+    console.log("responseMarkAttendance ====> ",responseMarkAttendance)
+
+    if(responseMarkAttendance!=null && responseMarkAttendance.status==1){
+      handleShowMessage("Attendance Updated.","success")
+      dispatch(clearMarkAttendance())
+      navigation.goBack()
+    
+    }
+  },[responseMarkAttendance])
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -64,7 +114,7 @@ const StudentList = () => {
           </Text>
           <Text style={styles.headerText}>Student List</Text>
         </View>
-        <ScrollView style={{padding: 16}}>
+        <View style={{padding: 16,flex:1}}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={studentData}
@@ -92,13 +142,13 @@ const StudentList = () => {
                       fontWeight: '600',
                       color: appColors.primaryColor,
                     }}>
-                    {item.name}
+                    {item.studentId.name}
                   </Text>
                   <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{alignItems: 'flex-start'}}>
+                    <TouchableOpacity style={{alignItems: 'flex-start'}} onPress={()=>changeAttendance(item)}>
                       <Text
                         style={{
-                          backgroundColor: appColors.success_green,
+                          backgroundColor: item.status==1?appColors.success_green:appColors.red,
                           width: 80,
                           textAlign: 'center',
                           margin: 8,
@@ -106,7 +156,7 @@ const StudentList = () => {
                           paddingVertical: 4,
                           borderRadius: 4,
                         }}>
-                        Present
+                        {item.status==1?"Present":"Absent"}
                       </Text>
                     </TouchableOpacity>
                     <View style={{flex: 1}} />
@@ -119,7 +169,7 @@ const StudentList = () => {
               </View>
             )}
           />
-        </ScrollView>
+        </View>
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Mark Attendence</Text>
         </TouchableOpacity>

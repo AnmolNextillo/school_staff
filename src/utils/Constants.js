@@ -32,6 +32,9 @@ export const upload = 'staff/upload';
 export const getHomeWorkList = 'staff/getHomeWorkList';
 export const galleryMedia = 'staff/galleryMedia';
 export const attendance = 'staff/attendance';
+export const attendanceDetails = 'staff/attendanceDetails';
+export const updateAttendanceDetails = 'staff/updateAttendanceDetails';
+export const markFinalAttendance = 'staff/markFinalAttendance';
 
 export const handleShowMessage = (message,type) => {
     showMessage({

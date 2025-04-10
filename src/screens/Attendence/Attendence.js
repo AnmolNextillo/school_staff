@@ -11,20 +11,25 @@ import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
 import {useDispatch, useSelector} from 'react-redux';
 import {hitClassList} from '../../redux/GetClassListSlice';
+import { hitAttendence } from '../../redux/GetAttendenceSlice';
 
 const Attendence = ({navigation}) => {
   const dispatch = useDispatch();
-  const responseClassList = useSelector(state => state.getClassReducer.data);
+  const responseClassList = useSelector(state => state.getAttendenceReducer.data);
 
   const [classList, setClassList] = useState(null);
 
   useEffect(() => {
-    dispatch(hitClassList());
+    dispatch(hitAttendence());
   }, []);
 
   useEffect(() => {
     if (responseClassList != null && responseClassList.status === 1) {
-      setClassList(responseClassList.data);
+      const classList = responseClassList.data.map(item => ({
+        name: item.classId.name,
+        id: item._id,
+      }));
+      setClassList(classList);
     }
   }, [responseClassList]);
 
@@ -56,8 +61,9 @@ const Attendence = ({navigation}) => {
           keyExtractor={item => item.id}
           renderItem={({item, index}) => (
             <TouchableOpacity
+              key={index}
               style={styles.classStyle}
-              onPress={() => navigation.navigate('StudentList')}>
+              onPress={() => navigation.navigate('StudentList',{classId:item.id})}>
               <Text style={styles.textStyle}>{item.name}</Text>
             </TouchableOpacity>
           )}
