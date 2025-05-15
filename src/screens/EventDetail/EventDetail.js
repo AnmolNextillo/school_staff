@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import {appColors} from '../../utils/color';
 import moment from 'moment';
+import { ImageBaseUrl } from '../../utils/Constants';
 
 const EventDetail = ({navigation, route}) => {
   const {item} = route.params;
@@ -62,11 +63,10 @@ const EventDetail = ({navigation, route}) => {
                   style={[styles.subjectText, {color: appColors.blue}]}
                   onPress={() =>
                     openLink(
-                      'https://school-project-varun.s3.ap-south-1.amazonaws.com/' +
-                        item.media,
+                      ImageBaseUrl+item.media,
                     )
                   }>
-                  {`https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}`}
+                  {ImageBaseUrl+item.media}
                 </Text>
               </>
             )}

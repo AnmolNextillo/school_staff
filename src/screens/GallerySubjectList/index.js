@@ -17,7 +17,7 @@ import PlusIcon from '../../assets/svg/PlusIcon';
 const GallerySubjectList = ({navigation, route}) => {
   const dispatch = useDispatch();
 
-  const {classId} = route.params;
+  const {classId,className} = route.params;
 
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
 
@@ -54,7 +54,7 @@ const GallerySubjectList = ({navigation, route}) => {
           onPress={() => navigation.goBack()}>
           Back
         </Text>
-        <Text style={styles.headerText}>Class List</Text>
+        <Text style={styles.headerText}>Gallery ({className})</Text>
       </View>
 
       <FlatList
@@ -75,7 +75,7 @@ const GallerySubjectList = ({navigation, route}) => {
         <TouchableOpacity
                 style={styles.fab}
                 onPress={() =>
-                  navigation.navigate('ImageUploadScreen', {classId: classId})
+                  navigation.navigate('ImageUploadScreen', {classId: classId,className:className})
                 }>
                 {/* <Text style={{color:appColors.white,fontSize:36}}>+</Text> */}
                 <PlusIcon />

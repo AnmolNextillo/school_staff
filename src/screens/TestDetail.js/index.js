@@ -10,7 +10,7 @@ import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
 import {useDispatch, useSelector} from 'react-redux';
 // import { clearAckTest, hitAckTest } from '../../redux/AcknowladgeTestSlice';
-import {handleShowMessage} from '../../utils/Constants';
+import {handleShowMessage, ImageBaseUrl} from '../../utils/Constants';
 import {hitTestDetail} from '../../redux/GetTestDetailSlice';
 
 const TestDetail = ({navigation, route}) => {
@@ -42,7 +42,7 @@ const TestDetail = ({navigation, route}) => {
   const openLink = fileUrl => {
     console.log(fileUrl);
     Linking.openURL(
-      'https://school-project-varun.s3.ap-south-1.amazonaws.com/' + fileUrl,
+      ImageBaseUrl + fileUrl,
     ).catch(err => console.error('Failed to open URL:', err));
   };
 

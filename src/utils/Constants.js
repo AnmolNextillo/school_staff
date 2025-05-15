@@ -3,6 +3,9 @@ import { showMessage } from "react-native-flash-message";
 //Api BaseUrl
 export const ApiBaseUrl = 'https://api.kcmschool.co.in/v1/';
 
+//Image BaseUrl
+export const ImageBaseUrl = 'https://school-project-varun.s3.ap-south-1.amazonaws.com/';
+
 //Api Names
 export const loginApi = 'staff/login';
 export const logout = 'staff/logout';

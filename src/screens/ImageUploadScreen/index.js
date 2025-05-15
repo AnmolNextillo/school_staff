@@ -22,7 +22,7 @@ import {
 } from '../../redux/AddAnnouncementSlice';
 
 const ImageUploadScreen = ({navigation, route}) => {
-  const {classId} = route.params;
+  const {classId,className} = route.params;
   const [images, setImages] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [subject, setSubject] = useState([]);
@@ -67,7 +67,7 @@ const ImageUploadScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (resUploadImage != null) {
-      setUploadedImages(prev => [...prev, resUploadImage.Location]);
+      setUploadedImages(prev => [...prev, resUploadImage.Key]);
       //   uploadGalleryMedia();
     }
   }, [resUploadImage]);
@@ -116,7 +116,7 @@ const ImageUploadScreen = ({navigation, route}) => {
           onPress={() => navigation.goBack()}>
           Back
         </Text>
-        <Text style={styles.headerText}>Upload Images</Text>
+        <Text style={styles.headerText}>Upload Images ({className})</Text>
       </View>
       {/* <Text style={styles.title}>Upload Multiple Images</Text> */}
    

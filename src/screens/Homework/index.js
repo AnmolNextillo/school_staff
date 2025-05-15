@@ -12,6 +12,7 @@ import {appColors} from '../../utils/color';
 import {useDispatch} from 'react-redux';
 import {hitHomeWork} from '../../redux/HomeWorkSlice';
 import moment from 'moment';
+import { ImageBaseUrl } from '../../utils/Constants';
 
 const Homework = ({navigation, route}) => {
   const {data} = route.params;
@@ -62,12 +63,10 @@ const Homework = ({navigation, route}) => {
               style={[styles.subjectText, {color: appColors.blue}]}
               onPress={() =>
                 openLink(
-                  'https://school-project-varun.s3.ap-south-1.amazonaws.com/' +
-                    data.media,
+                    ImageBaseUrl+ data.media
                 )
               }>
-              https://school-project-varun.s3.ap-south-1.amazonaws.com/+
-              {data.media}
+              {ImageBaseUrl+data.media}
             </Text>
             <Text style={styles.LinkText}>Link</Text>
             <Text style={styles.subjectText}>---</Text>

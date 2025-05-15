@@ -68,7 +68,7 @@ const AddAnnoucement = () => {
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
       setSubjectList(responseSubject.data);
-      setSubject(responseSubject.data[0]._id);
+      setSubject(responseSubject.data[0]);
     }
   }, [responseSubject]);
 
@@ -132,11 +132,11 @@ const AddAnnoucement = () => {
       if (subject && date && selectedClass) {
         const payload = {
           title: "Announcement",
-          subjectId: subject,
+          subject: title,
           date: date,
           classId: selectedClass,
-          media: responseUploadFile.Location,
-          ddescription: description,
+          media: responseUploadFile.Key,
+          description: description,
         };
         console.log('Payload Add Test ====> ', payload);
         dispatch(addAnnouncement(payload));
@@ -161,22 +161,7 @@ const AddAnnoucement = () => {
           <Text style={styles.headerText}>Add Annoucement</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
-          {/* <TextInput style={styles.input} placeholder="Event Title" value={title} onChangeText={setTitle} /> */}
-
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item.name}
-                />
-              ))}
-            </Picker>
-          </View>
+          <TextInput style={styles.input} placeholder=" Title" value={title} onChangeText={setTitle} />
 
           <View style={styles.pickerContainer}>
             <Picker
@@ -192,6 +177,23 @@ const AddAnnoucement = () => {
               ))}
             </Picker>
           </View>
+
+          {/* {subjectList?.length > 0 && (
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={subject}
+              style={styles.picker}
+              onValueChange={itemValue => setSubject(itemValue)}>
+              {subjectList?.map(item => (
+                <Picker.Item
+                  key={item._id}
+                  label={item.name}
+                  value={item.name}
+                />
+              ))}
+            </Picker>
+          </View>
+          )} */}
 
           <View
             style={[

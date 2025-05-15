@@ -27,7 +27,6 @@ import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddEvent = ({route}) => {
-
   // const item = route?.params?.data;
 
   const navigation = useNavigation();
@@ -56,11 +55,11 @@ const AddEvent = ({route}) => {
   //       setDate(item.date || '');
   //       setDescription(item.description || '');
   //       setImageUri(item.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}` } : null);
-    
+
   //       if (item.classId) {
   //         setSelectedClass(item.classId);
   //       }
-    
+
   //       if (item.subjectId) {
   //         setSubject(item.subjectId);
   //       }
@@ -88,7 +87,7 @@ const AddEvent = ({route}) => {
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
       setSubjectList(responseSubject.data);
-      setSubject(responseSubject.data[0]._id);
+      setSubject(responseSubject.data[0]);
     }
   }, [responseSubject]);
 
@@ -107,8 +106,8 @@ const AddEvent = ({route}) => {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: "Event",
-          subjectId: subject,
+          title: 'Event',
+          subject: title,
           date: date,
           description: description,
           classId: selectedClass,
@@ -151,11 +150,11 @@ const AddEvent = ({route}) => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
       if (subject && date && selectedClass) {
         const payload = {
-          title: "Event",
-          subjectId: subject,
+          title: 'Event',
+          subject: title,
           date: date,
           classId: selectedClass,
-          media: responseUploadFile.Location,
+          media: responseUploadFile.Key,
           ddescription: description,
         };
         console.log('Payload Add Test ====> ', payload);
@@ -181,7 +180,7 @@ const AddEvent = ({route}) => {
           <Text style={styles.headerText}>Add Event</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
-          {/* <TextInput style={styles.input} placeholder="Event Title" value={title} onChangeText={setTitle} /> */}
+          <TextInput style={styles.input} placeholder="Title" value={title} onChangeText={setTitle} />
 
           <View style={styles.pickerContainer}>
             <Picker
@@ -197,21 +196,23 @@ const AddEvent = ({route}) => {
               ))}
             </Picker>
           </View>
-
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item.name}
-                />
-              ))}
-            </Picker>
-          </View>
+          
+          {/* {subjectList?.length > 0 && (
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={subject}
+                style={styles.picker}
+                onValueChange={itemValue => setSubject(itemValue)}>
+                {subjectList?.map(item => (
+                  <Picker.Item
+                    key={item._id}
+                    label={item.name}
+                    value={item.name}
+                  />
+                ))}
+              </Picker>
+            </View>
+          )} */}
 
           <View
             style={[

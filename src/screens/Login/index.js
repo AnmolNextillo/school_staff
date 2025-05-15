@@ -21,10 +21,10 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const loginResponse = useSelector(state => state.loginReducer.data);
 
-  // const [email, setEmail] = useState('manishseera@gmail.com');
-  // const [password, setPassword] = useState('123456');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('manishseera@gmail.com');
+  const [password, setPassword] = useState('123456');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -145,6 +145,7 @@ const Login = ({navigation}) => {
                 onChangeText={setEmail}
                 style={{
                   color: appColors.black,
+                  width:"100%"
                 }}
               />
             </View>
@@ -157,6 +158,7 @@ const Login = ({navigation}) => {
                 style={{
                   flex: 1,
                   color: appColors.black,
+                  width:"100%"
                 }}
                 value={password}
                 onChangeText={setPassword}
@@ -182,7 +184,7 @@ const Login = ({navigation}) => {
               )}
             </TouchableOpacity>
 
-            <Text
+            {/* <Text
               style={{
                 marginTop: 16,
                 alignSelf: 'center',
@@ -190,7 +192,7 @@ const Login = ({navigation}) => {
               }}
               onPress={() => navigation.navigate('ForgotPassword')}>
               Forgot Password
-            </Text>
+            </Text> */}
           </View>
         </ScrollView>
       ) : (

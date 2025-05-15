@@ -8,20 +8,20 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { appColors } from '../../utils/color';
-import { useNavigation } from '@react-navigation/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { Picker } from '@react-native-picker/picker';
-import { launchImageLibrary } from 'react-native-image-picker';
+import React, {useEffect, useState} from 'react';
+import {appColors} from '../../utils/color';
+import {useNavigation} from '@react-navigation/core';
+import {useDispatch, useSelector} from 'react-redux';
+import {Picker} from '@react-native-picker/picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {
   addAnnouncement,
   clearAddAnnouncementData,
 } from '../../redux/AddAnnouncementSlice';
-import { clearUploadFileData, uploadFile } from '../../redux/uploadFile';
-import { hitClassList } from '../../redux/GetClassListSlice';
-import { hitSubjectList } from '../../redux/GetSujectListSlice';
-import { handleShowMessage } from '../../utils/Constants';
+import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
+import {hitClassList} from '../../redux/GetClassListSlice';
+import {hitSubjectList} from '../../redux/GetSujectListSlice';
+import {handleShowMessage} from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -45,27 +45,25 @@ const AddHomework = () => {
   const responseAddAnnouncement = useSelector(
     state => state.addAnnouncementReducer.data,
   );
-  const responseUploadFile = useSelector(
-    state => state.uploadFileReducer.data,
-  );
+  const responseUploadFile = useSelector(state => state.uploadFileReducer.data);
 
-  useEffect(() => {
-    if (item) {
-      setTitle(item.title || '');
-      setSubject(item.subject || '');
-      setDate(item.date || '');
-      setDescription(item.description || '');
-      setImageUri(item.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}` } : null);
+  // useEffect(() => {
+  //   if (item) {
+  //     setTitle(item.title || '');
+  //     setSubject(item.subject || '');
+  //     setDate(item.date || '');
+  //     setDescription(item.description || '');
+  //     setImageUri(item.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${item.media}` } : null);
 
-      if (item.classId) {
-        setSelectedClass(item.classId);
-      }
+  //     if (item.classId) {
+  //       setSelectedClass(item.classId);
+  //     }
 
-      if (item.subjectId) {
-        setSubject(item.subjectId);
-      }
-    }
-  }, [item]);
+  //     if (item.subjectId) {
+  //       setSubject(item.subjectId);
+  //     }
+  //   }
+  // }, [item]);
 
   useEffect(() => {
     dispatch(hitClassList());
@@ -73,22 +71,22 @@ const AddHomework = () => {
 
   useEffect(() => {
     if (selectedClass) {
-      const payload = { classId: selectedClass };
+      const payload = {classId: selectedClass};
       dispatch(hitSubjectList(payload));
     }
   }, [selectedClass]);
 
   useEffect(() => {
     if (responseClasses && responseClasses.status === 1) {
-      setClassList(responseClasses.data);
       setSelectedClass(responseClasses.data[0]._id);
+      setClassList(responseClasses.data);
     }
   }, [responseClasses]);
 
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
       setSubjectList(responseSubject.data);
-      setSubject(responseSubject.data[0]._id);
+      setSubject(responseSubject.data[0]);
     }
   }, [responseSubject]);
 
@@ -113,8 +111,8 @@ const AddHomework = () => {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: "Homework",
-          subjectId: subject,
+          title: 'Homework',
+          subject: subject,
           date: date,
           description: description,
           classId: selectedClass,
@@ -129,7 +127,7 @@ const AddHomework = () => {
 
   const handleImagePick = () => {
     console.log('launchImageLibrary ===>', launchImageLibrary);
-    launchImageLibrary({ mediaType: 'photo' }, response => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.assets && response.assets.length > 0) {
         setImageUri(response.assets[0]);
       }
@@ -153,15 +151,15 @@ const AddHomework = () => {
   }, [responseAddAnnouncement]);
 
   useEffect(() => {
-    if (responseUploadFile != null && responseUploadFile.status === 1) {
+    if (responseUploadFile != null && responseUploadFile.Key != null) {
       if (subject && date && selectedClass) {
         const payload = {
-          title: "Homework",
-          subjectId: subject,
+          title: 'Homework',
+          subject: subject.name,
           date: date,
           classId: selectedClass,
-          media: responseUploadFile.Location,
-          ddescription: description,
+          media: responseUploadFile.Key,
+          description: description,
         };
         console.log('Payload Add Test ====> ', payload);
         dispatch(addAnnouncement(payload));
@@ -177,8 +175,8 @@ const AddHomework = () => {
   }, [responseUploadFile]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1}}>
         <View style={styles.headerContainer}>
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
@@ -202,33 +200,36 @@ const AddHomework = () => {
                 <Picker.Item
                   key={item._id}
                   label={item.name}
-                  value={item.name}
-                />
-              ))}
-            </Picker>
-          </View>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
                   value={item._id}
                 />
               ))}
             </Picker>
           </View>
 
+          {subjectList?.length > 0 && (
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={subject}
+                style={styles.picker}
+                onValueChange={itemValue => setSubject(itemValue)}>
+                {subjectList?.map(item => (
+                  <Picker.Item
+                    key={item._id}
+                    label={item.name}
+                    value={item._id}
+                  />
+                ))}
+              </Picker>
+            </View>
+          )}
+
           <View
             style={[
               styles.input,
-              { flexDirection: 'row', alignContent: 'center' },
+              {flexDirection: 'row', alignContent: 'center'},
             ]}>
             <Text
-              style={{ color: date ? appColors.black : appColors.grey, flex: 1 }}>
+              style={{color: date ? appColors.black : appColors.grey, flex: 1}}>
               {date || 'Select Date'}
             </Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
@@ -265,7 +266,7 @@ const AddHomework = () => {
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
           {imageUri && (
-            <Image source={{ uri: imageUri.uri }} style={styles.imagePreview} />
+            <Image source={{uri: imageUri.uri}} style={styles.imagePreview} />
           )}
           <TouchableOpacity
             style={styles.button}

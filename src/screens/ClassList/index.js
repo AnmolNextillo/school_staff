@@ -52,7 +52,7 @@ const ClassList = ({navigation,route}) => {
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={styles.classStyle}
-            onPress={() => navigation.navigate(from==1?'HomeWorkList':from==2?"EventList":"GallerySubjectList",{classId:item._id})}>
+            onPress={() => navigation.navigate(from==1?'HomeWorkList':from==2?"EventList":"GallerySubjectList",{classId:item._id,className:item.name})}>
             <Text style={styles.textStyle}>{item.name}</Text>
           </TouchableOpacity>
         )}

@@ -20,7 +20,7 @@ import {clearAddTest, hitAddTest} from '../../redux/AddTestSlice';
 import {hitSubjectList} from '../../redux/GetSujectListSlice';
 import {hitClassList} from '../../redux/GetClassListSlice';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
-import {handleShowMessage} from '../../utils/Constants';
+import {handleShowMessage, ImageBaseUrl} from '../../utils/Constants';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
 
@@ -53,7 +53,7 @@ const AddTest = ({route}) => {
       setDate(passedData.date || '');
       setTotalMarks(String(passedData.totalMarks || ''));
       setDescription(passedData.description || '');
-      setImageUri(passedData.media ? { uri: `https://school-project-varun.s3.ap-south-1.amazonaws.com/${passedData.media}` } : null);
+      setImageUri(passedData.media ? { uri: ImageBaseUrl+ passedData.media } : null);
   
       if (passedData.classId) {
         setSelectedClass(passedData.classId);
@@ -86,18 +86,18 @@ const AddTest = ({route}) => {
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
       setSubjectList(responseSubject.data);
-      setSubject(responseSubject.data[0]._id)
+      setSubject(responseSubject.data[0])
     }
   }, [responseSubject]);
 
   const handleSubmit = () => {
-    if (title && subject && date && selectedClass && totalMarks) {
+    if (subject && date && selectedClass && totalMarks) {
       if (imageUri != null) {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
-          title: title,
-          subjectId: subject,
+          title: "Test",
+          subject: subject,
           date: date,
           classId: selectedClass,
           media: '',
@@ -134,14 +134,14 @@ const AddTest = ({route}) => {
   useEffect(() => {
     console.log("responseUploadFile  ====> ",responseUploadFile )
     if (responseUploadFile != null ) {
-      if (title && subject && date && selectedClass && totalMarks) {
+      if (subject && date && selectedClass && totalMarks) {
         console.log("Inner")
         const payload = {
-          title: title,
-          subjectId: subject,
+          title: "Test",
+          subject: subject,
           date: date,
           classId: selectedClass,
-          media: responseUploadFile.Location,
+          media: responseUploadFile.Key,
           totalMarks: totalMarks,
         };
         console.log('Payload Add Test ====> ', payload);
@@ -176,12 +176,12 @@ const AddTest = ({route}) => {
           <Text style={styles.headerText}>Add Test</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
-          <TextInput
+          {/* <TextInput
             style={styles.input}
             placeholder="Test Title"
             value={title}
             onChangeText={setTitle}
-          />
+          /> */}
 
           {/* Class Picker */}
           <View style={styles.pickerContainer}>
@@ -199,7 +199,7 @@ const AddTest = ({route}) => {
             </Picker>
           </View>
 
-          {/* Subject Picker */}
+          {subjectList?.length > 0 && (
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={subject}
@@ -214,6 +214,7 @@ const AddTest = ({route}) => {
               ))}
             </Picker>
           </View>
+          )}
 
           {/* Date Picker */}
           <View
