@@ -1,4 +1,4 @@
-import React, {use, useEffect, useState} from 'react';
+import React, { use, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {appColors} from '../../utils/color';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { appColors } from '../../utils/color';
 import CrossIcon from '../../assets/svg/CrossIcon';
-import {useDispatch, useSelector} from 'react-redux';
-import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
-import {hitGalleryMedia} from '../../redux/GalleryMediaSlice';
-import {handleShowMessage} from '../../utils/Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUploadFileData, uploadFile } from '../../redux/uploadFile';
+import { hitGalleryMedia } from '../../redux/GalleryMediaSlice';
+import { handleShowMessage } from '../../utils/Constants';
 import {
   addAnnouncement,
   clearAddAnnouncementData,
 } from '../../redux/AddAnnouncementSlice';
 
-const ImageUploadScreen = ({navigation, route}) => {
-  const {classId,className} = route.params;
+const ImageUploadScreen = ({ navigation, route }) => {
+  const { classId, className } = route.params;
   const [images, setImages] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [subject, setSubject] = useState([]);
@@ -55,13 +56,13 @@ const ImageUploadScreen = ({navigation, route}) => {
   };
 
   const uploadImages = () => {
-    if(subject==""){
-        handleShowMessage("Please enter title!",'danger')
-    }else if(images.length==0){
-        handleShowMessage("Please select images!",'danger')
+    if (subject == "") {
+      handleShowMessage("Please enter title!", 'danger')
+    } else if (images.length == 0) {
+      handleShowMessage("Please select images!", 'danger')
     }
-    else{
-        images.map((item, index) => dispatch(uploadFile(item)));
+    else {
+      images.map((item, index) => dispatch(uploadFile(item)));
     }
   };
 
@@ -94,7 +95,7 @@ const ImageUploadScreen = ({navigation, route}) => {
       const payload = {
         title: 'Gallery',
         classId: classId,
-        subject:subject,
+        subject: subject,
         galleryMedia: uploadedImages,
       };
       console.log('Payload Images ====> ', payload);
@@ -104,7 +105,7 @@ const ImageUploadScreen = ({navigation, route}) => {
   }, [uploadedImages]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View
         style={{
           flexDirection: 'row',
@@ -112,22 +113,22 @@ const ImageUploadScreen = ({navigation, route}) => {
           backgroundColor: appColors.white,
         }}>
         <Text
-          style={{color: appColors.primaryColor}}
+          style={{ color: appColors.primaryColor }}
           onPress={() => navigation.goBack()}>
           Back
         </Text>
         <Text style={styles.headerText}>Upload Images ({className})</Text>
       </View>
       {/* <Text style={styles.title}>Upload Multiple Images</Text> */}
-   
-      <View style={{width:"100%",backgroundColor:appColors.white,paddingHorizontal:16,marginTop:1}}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Title"
-            value={subject}
-            onChangeText={setSubject}
-          />
-        </View>
+
+      <View style={{ width: "100%", backgroundColor: appColors.offWhite, paddingHorizontal: 16, marginTop: 1 }}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Title"
+          value={subject}
+          onChangeText={setSubject}
+        />
+      </View>
       <ScrollView contentContainerStyle={styles.imageContainer}>
 
         {images.map((img, index) => (
@@ -140,30 +141,30 @@ const ImageUploadScreen = ({navigation, route}) => {
               }}>
               <CrossIcon height={12} width={12} />
             </TouchableOpacity>
-            <Image source={{uri: img.uri}} style={styles.imageThumb} />
+            <Image source={{ uri: img.uri }} style={styles.imageThumb} />
           </View>
         ))}
       </ScrollView>
-      <View style={{backgroundColor:appColors.white}}>
-      <TouchableOpacity
-        style={[
-          styles.uploadButton,
-          {marginBottom: images.length > 0 ? 0 : 16},
-        ]}
-        onPress={handleSelectImages}>
-        <Text style={styles.uploadText}>Select Images</Text>
-      </TouchableOpacity>
-
-      {images.length > 0 && (
+      <View style={{ backgroundColor: appColors.white }}>
         <TouchableOpacity
-          style={[styles.uploadButton, {marginBottom: 16}]}
-          onPress={uploadImages}>
-          <Text style={styles.uploadText}>Upload Images</Text>
+          style={[
+            styles.uploadButton,
+            { marginBottom: images.length > 0 ? 0 : 16 },
+          ]}
+          onPress={handleSelectImages}>
+          <Text style={styles.uploadText}>Select Images</Text>
         </TouchableOpacity>
-      )}
+
+        {images.length > 0 && (
+          <TouchableOpacity
+            style={[styles.uploadButton, { marginBottom: 16 }]}
+            onPress={uploadImages}>
+            <Text style={styles.uploadText}>Upload Images</Text>
+          </TouchableOpacity>
+        )}
       </View>
-     
-    </View>
+
+    </SafeAreaView>
   );
 };
 
@@ -200,11 +201,11 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    flex:1,
+    flex: 1,
     gap: 10,
-    padding:16,
+    padding: 16,
     paddingBottom: 32,
-    backgroundColor:appColors.white
+    backgroundColor: appColors.offWhite
   },
   imageThumb: {
     backgroundColor: appColors.offWhite,

@@ -8,6 +8,8 @@ import {
   Image,
   ScrollView,
   Alert,
+  Button,
+  Modal,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {appColors} from '../../utils/color';
@@ -25,6 +27,7 @@ import {hitSubjectList} from '../../redux/GetSujectListSlice';
 import {handleShowMessage} from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import BottomListModal from '../../component/BottomListModal';
 
 const AddAnnoucement = () => {
   const navigation = useNavigation();
@@ -39,7 +42,10 @@ const AddAnnoucement = () => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
-
+  const [className, setClassName] = useState('');
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [tempDate, setTempDate] = useState(new Date());
+  
   const responseSubject = useSelector(state => state.getSubjectReducer.data);
   const responseClasses = useSelector(state => state.getClassReducer.data);
   const responseAddAnnouncement = useSelector(
@@ -62,6 +68,7 @@ const AddAnnoucement = () => {
     if (responseClasses && responseClasses.status === 1) {
       setSelectedClass(responseClasses.data[0]._id);
       setClassList(responseClasses.data);
+      setClassName(responseClasses.data[0].name);
     }
   }, [responseClasses]);
 
@@ -162,39 +169,15 @@ const AddAnnoucement = () => {
         </View>
         <ScrollView style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder=" Title" value={title} onChangeText={setTitle} />
-
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={selectedClass}
-              style={styles.picker}
-              onValueChange={itemValue => setSelectedClass(itemValue)}>
-              {classList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
-          </View>
-
-          {/* {subjectList?.length > 0 && (
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item.name}
-                />
-              ))}
-            </Picker>
-          </View>
-          )} */}
-
+          <BottomListModal
+            isModalVisible={menuVisible}
+            setModalVisible={setMenuVisible}
+            data={classList}
+            setSelectedClass={setSelectedClass}
+            setClassName={setClassName}
+            className={className}
+            from="class"
+          />
           <View
             style={[
               styles.input,
@@ -208,7 +191,7 @@ const AddAnnoucement = () => {
               <AnnualCalenderIcon height={24} width={24} />
             </TouchableOpacity>
           </View>
-          {showDatePicker && (
+           {showDatePicker && Platform.OS === 'android' &&(
             <DateTimePicker
               value={date ? new Date(date) : new Date()}
               mode="date"
@@ -223,6 +206,34 @@ const AddAnnoucement = () => {
                 }
               }}
             />
+          )}
+          {showDatePicker && Platform.OS === 'ios' && (
+            <Modal transparent={true} animationType="slide">
+              <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: '#00000088' }}>
+                <View style={{ backgroundColor: 'white', padding: 16 }}>
+                  <DateTimePicker
+                    value={tempDate}
+                    mode="date"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                      if (selectedDate) {
+                        setTempDate(selectedDate); // Store temporarily until OK is pressed
+                      }
+                    }}
+                  />
+                  <Button
+                    title="OK"
+                    onPress={() => {
+                      setShowDatePicker(false);
+                      if (tempDate) {
+                        const formattedDate = tempDate.toISOString().split('T')[0];
+                        setDate(formattedDate);
+                      }
+                    }}
+                  />
+                </View>
+              </View>
+            </Modal>
           )}
 
           <TextInput

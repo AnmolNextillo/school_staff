@@ -230,7 +230,7 @@ const AddTest = ({route}) => {
               <AnnualCalenderIcon height={24} width={24} />
             </TouchableOpacity>
           </View>
-          {showDatePicker && (
+           {showDatePicker && Platform.OS === 'android' &&(
             <DateTimePicker
               value={date ? new Date(date) : new Date()}
               mode="date"
@@ -245,6 +245,34 @@ const AddTest = ({route}) => {
                 }
               }}
             />
+          )}
+          {showDatePicker && Platform.OS === 'ios' && (
+            <Modal transparent={true} animationType="slide">
+              <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: '#00000088' }}>
+                <View style={{ backgroundColor: 'white', padding: 16 }}>
+                  <DateTimePicker
+                    value={tempDate}
+                    mode="date"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                      if (selectedDate) {
+                        setTempDate(selectedDate); // Store temporarily until OK is pressed
+                      }
+                    }}
+                  />
+                  <Button
+                    title="OK"
+                    onPress={() => {
+                      setShowDatePicker(false);
+                      if (tempDate) {
+                        const formattedDate = tempDate.toISOString().split('T')[0];
+                        setDate(formattedDate);
+                      }
+                    }}
+                  />
+                </View>
+              </View>
+            </Modal>
           )}
 
           <TextInput
