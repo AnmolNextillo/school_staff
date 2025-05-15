@@ -88,7 +88,7 @@ const AddAnnoucement = () => {
       } else {
         const payload = {
           title: "Announcement",
-          subjectId: subject,
+          subject: title,
           date: date,
           description: description,
           classId: selectedClass,
@@ -125,7 +125,7 @@ const AddAnnoucement = () => {
         handleShowMessage(responseAddAnnouncement.message, 'danger');
       }
     }
-  }, [responseAddAnnouncement]);
+  }, [responseAddAnnouncement]); 
 
   useEffect(() => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
