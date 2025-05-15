@@ -7,23 +7,27 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Modal,
+  Button,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
-import {useDispatch, useSelector} from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
-import {launchImageLibrary} from 'react-native-image-picker';
+import React, { useEffect, useState } from 'react';
+import { appColors } from '../../utils/color';
+import { useNavigation } from '@react-navigation/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import {
   addAnnouncement,
   clearAddAnnouncementData,
 } from '../../redux/AddAnnouncementSlice';
-import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
-import {hitClassList} from '../../redux/GetClassListSlice';
-import {hitSubjectList} from '../../redux/GetSujectListSlice';
-import {handleShowMessage} from '../../utils/Constants';
+import { clearUploadFileData, uploadFile } from '../../redux/uploadFile';
+import { hitClassList } from '../../redux/GetClassListSlice';
+import { hitSubjectList } from '../../redux/GetSujectListSlice';
+import { handleShowMessage } from '../../utils/Constants';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import BottomListSubject from '../../component/BottomListSubject';
+import BottomListModal from '../../component/BottomListModal';
 
 const AddHomework = () => {
   const navigation = useNavigation();
@@ -39,6 +43,10 @@ const AddHomework = () => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [className, setClassName] = useState('');
+  const [tempDate, setTempDate] = useState(new Date());
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuVisibleSub, setMenuVisibleSub] = useState(false);
 
   const responseSubject = useSelector(state => state.getSubjectReducer.data);
   const responseClasses = useSelector(state => state.getClassReducer.data);
@@ -71,7 +79,7 @@ const AddHomework = () => {
 
   useEffect(() => {
     if (selectedClass) {
-      const payload = {classId: selectedClass};
+      const payload = { classId: selectedClass };
       dispatch(hitSubjectList(payload));
     }
   }, [selectedClass]);
@@ -80,6 +88,7 @@ const AddHomework = () => {
     if (responseClasses && responseClasses.status === 1) {
       setSelectedClass(responseClasses.data[0]._id);
       setClassList(responseClasses.data);
+      setClassName(responseClasses.data[0].name);
     }
   }, [responseClasses]);
 
@@ -127,7 +136,7 @@ const AddHomework = () => {
 
   const handleImagePick = () => {
     console.log('launchImageLibrary ===>', launchImageLibrary);
-    launchImageLibrary({mediaType: 'photo'}, response => {
+    launchImageLibrary({ mediaType: 'photo' }, response => {
       if (response.assets && response.assets.length > 0) {
         setImageUri(response.assets[0]);
       }
@@ -175,8 +184,8 @@ const AddHomework = () => {
   }, [responseUploadFile]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View style={styles.headerContainer}>
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
@@ -191,7 +200,7 @@ const AddHomework = () => {
             onChangeText={setTitle}
           /> */}
 
-          <View style={styles.pickerContainer}>
+          {/* <View style={styles.pickerContainer}>
             <Picker
               selectedValue={selectedClass}
               style={styles.picker}
@@ -221,36 +230,68 @@ const AddHomework = () => {
                 ))}
               </Picker>
             </View>
-          )}
+          )} */}
+
+          <BottomListModal
+            isModalVisible={menuVisible}
+            setModalVisible={setMenuVisible}
+            data={classList}
+            setSelectedClass={setSelectedClass}
+            setClassName={setClassName}
+            className={className}
+            from="class"
+          />
+
+          <BottomListSubject
+            isModalVisible={menuVisibleSub}
+            setModalVisible={setMenuVisibleSub}
+            subjectData={subjectList}
+            setSubject={setSubject}
+            setClassName={setSubject}
+            className={subject}
+            from="subject"
+          />
 
           <View
             style={[
               styles.input,
-              {flexDirection: 'row', alignContent: 'center'},
+              { flexDirection: 'row', alignContent: 'center' },
             ]}>
             <Text
-              style={{color: date ? appColors.black : appColors.grey, flex: 1}}>
+              style={{ color: date ? appColors.black : appColors.grey, flex: 1 }}>
               {date || 'Select Date'}
             </Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <AnnualCalenderIcon height={24} width={24} />
             </TouchableOpacity>
           </View>
-          {showDatePicker && (
-            <DateTimePicker
-              value={date ? new Date(date) : new Date()}
-              mode="date"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={(event, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  const formattedDate = selectedDate
-                    .toISOString()
-                    .split('T')[0]; // YYYY-MM-DD
-                  setDate(formattedDate);
-                }
-              }}
-            />
+          {showDatePicker && Platform.OS === 'ios' && (
+            <Modal transparent={true} animationType="slide">
+              <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: '#00000088' }}>
+                <View style={{ backgroundColor: 'white', padding: 16 }}>
+                  <DateTimePicker
+                    value={tempDate}
+                    mode="date"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                      if (selectedDate) {
+                        setTempDate(selectedDate); // Store temporarily until OK is pressed
+                      }
+                    }}
+                  />
+                  <Button
+                    title="OK"
+                    onPress={() => {
+                      setShowDatePicker(false);
+                      if (tempDate) {
+                        const formattedDate = tempDate.toISOString().split('T')[0];
+                        setDate(formattedDate);
+                      }
+                    }}
+                  />
+                </View>
+              </View>
+            </Modal>
           )}
 
           <TextInput
@@ -266,7 +307,7 @@ const AddHomework = () => {
             <Text style={styles.buttonText}>Upload Image</Text>
           </TouchableOpacity>
           {imageUri && (
-            <Image source={{uri: imageUri.uri}} style={styles.imagePreview} />
+            <Image source={{ uri: imageUri.uri }} style={styles.imagePreview} />
           )}
           <TouchableOpacity
             style={styles.button}

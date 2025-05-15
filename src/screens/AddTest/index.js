@@ -9,22 +9,26 @@ import {
   Platform,
   Image,
   ScrollView,
+  Button,
+  Modal,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {appColors} from '../../utils/color';
-import {useNavigation} from '@react-navigation/core';
-import {useDispatch, useSelector} from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
+import React, { useEffect, useState } from 'react';
+import { appColors } from '../../utils/color';
+import { useNavigation } from '@react-navigation/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {clearAddTest, hitAddTest} from '../../redux/AddTestSlice';
-import {hitSubjectList} from '../../redux/GetSujectListSlice';
-import {hitClassList} from '../../redux/GetClassListSlice';
+import { clearAddTest, hitAddTest } from '../../redux/AddTestSlice';
+import { hitSubjectList } from '../../redux/GetSujectListSlice';
+import { hitClassList } from '../../redux/GetClassListSlice';
 import AnnualCalenderIcon from '../../assets/svg/AnnualCalenderIcon';
-import {handleShowMessage, ImageBaseUrl} from '../../utils/Constants';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {clearUploadFileData, uploadFile} from '../../redux/uploadFile';
+import { handleShowMessage, ImageBaseUrl } from '../../utils/Constants';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { clearUploadFileData, uploadFile } from '../../redux/uploadFile';
+import BottomListModal from '../../component/BottomListModal';
+import BottomListSubject from '../../component/BottomListSubject';
 
-const AddTest = ({route}) => {
+const AddTest = ({ route }) => {
 
   const passedData = route?.params?.data;
 
@@ -46,6 +50,10 @@ const AddTest = ({route}) => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
+  const [className, setClassName] = useState('');
+  const [tempDate, setTempDate] = useState(new Date());
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuVisibleSub, setMenuVisibleSub] = useState(false);
 
   useEffect(() => {
     if (passedData) {
@@ -53,12 +61,12 @@ const AddTest = ({route}) => {
       setDate(passedData.date || '');
       setTotalMarks(String(passedData.totalMarks || ''));
       setDescription(passedData.description || '');
-      setImageUri(passedData.media ? { uri: ImageBaseUrl+ passedData.media } : null);
-  
+      setImageUri(passedData.media ? { uri: ImageBaseUrl + passedData.media } : null);
+
       if (passedData.classId) {
         setSelectedClass(passedData.classId);
       }
-  
+
       if (passedData.subjectId) {
         setSubject(passedData.subjectId);
       }
@@ -71,7 +79,7 @@ const AddTest = ({route}) => {
 
   useEffect(() => {
     if (selectedClass) {
-      const payload = {classId: selectedClass};
+      const payload = { classId: selectedClass };
       dispatch(hitSubjectList(payload));
     }
   }, [selectedClass]);
@@ -80,6 +88,7 @@ const AddTest = ({route}) => {
     if (responseClasses && responseClasses.status === 1) {
       setClassList(responseClasses.data);
       setSelectedClass(responseClasses.data[0]._id);
+      setClassName(responseClasses.data[0].name);
     }
   }, [responseClasses]);
 
@@ -113,7 +122,7 @@ const AddTest = ({route}) => {
   };
 
   const handleImagePick = () => {
-    launchImageLibrary({mediaType: 'photo'}, response => {
+    launchImageLibrary({ mediaType: 'photo' }, response => {
       if (response.assets && response.assets.length > 0) {
         setImageUri(response.assets[0]);
       }
@@ -132,8 +141,8 @@ const AddTest = ({route}) => {
     }
   }, [responseAddTest]);
   useEffect(() => {
-    console.log("responseUploadFile  ====> ",responseUploadFile )
-    if (responseUploadFile != null ) {
+    console.log("responseUploadFile  ====> ", responseUploadFile)
+    if (responseUploadFile != null) {
       if (subject && date && selectedClass && totalMarks) {
         console.log("Inner")
         const payload = {
@@ -160,8 +169,8 @@ const AddTest = ({route}) => {
   }, [responseUploadFile]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -169,7 +178,7 @@ const AddTest = ({route}) => {
             backgroundColor: appColors.white,
           }}>
           <Text
-            style={{color: appColors.primaryColor}}
+            style={{ color: appColors.primaryColor }}
             onPress={() => navigation.goBack()}>
             Back
           </Text>
@@ -183,68 +192,67 @@ const AddTest = ({route}) => {
             onChangeText={setTitle}
           /> */}
 
-          {/* Class Picker */}
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={selectedClass}
-              style={styles.picker}
-              onValueChange={itemValue => setSelectedClass(itemValue)}>
-              {classList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
-          </View>
+          <BottomListModal
+            isModalVisible={menuVisible}
+            setModalVisible={setMenuVisible}
+            data={classList}
+            setSelectedClass={setSelectedClass}
+            setClassName={setClassName}
+            className={className}
+            from="class"
+          />
 
-          {subjectList?.length > 0 && (
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={subject}
-              style={styles.picker}
-              onValueChange={itemValue => setSubject(itemValue)}>
-              {subjectList?.map(item => (
-                <Picker.Item
-                  key={item._id}
-                  label={item.name}
-                  value={item._id}
-                />
-              ))}
-            </Picker>
-          </View>
-          )}
+          <BottomListSubject
+            isModalVisible={menuVisibleSub}
+            setModalVisible={setMenuVisibleSub}
+            subjectData={subjectList}
+            setSubject={setSubject}
+            setClassName={setSubject}
+            className={subject}
+            from="subject"
+          />
 
           {/* Date Picker */}
           <View
             style={[
               styles.input,
-              {flexDirection: 'row', alignContent: 'center'},
+              { flexDirection: 'row', alignContent: 'center' },
             ]}>
             <Text
-              style={{color: date ? appColors.black : appColors.grey, flex: 1}}>
+              style={{ color: date ? appColors.black : appColors.grey, flex: 1 }}>
               {date || 'Select Date'}
             </Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <AnnualCalenderIcon height={24} width={24} />
             </TouchableOpacity>
           </View>
-          {showDatePicker && (
-            <DateTimePicker
-              value={date ? new Date(date) : new Date()}
-              mode="date"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={(event, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  const formattedDate = selectedDate
-                    .toISOString()
-                    .split('T')[0]; // YYYY-MM-DD
-                  setDate(formattedDate);
-                }
-              }}
-            />
+          {showDatePicker && Platform.OS === 'ios' && (
+            <Modal transparent={true} animationType="slide">
+              <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: '#00000088' }}>
+                <View style={{ backgroundColor: 'white', padding: 16 }}>
+                  <DateTimePicker
+                    value={tempDate}
+                    mode="date"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                      if (selectedDate) {
+                        setTempDate(selectedDate); // Store temporarily until OK is pressed
+                      }
+                    }}
+                  />
+                  <Button
+                    title="OK"
+                    onPress={() => {
+                      setShowDatePicker(false);
+                      if (tempDate) {
+                        const formattedDate = tempDate.toISOString().split('T')[0];
+                        setDate(formattedDate);
+                      }
+                    }}
+                  />
+                </View>
+              </View>
+            </Modal>
           )}
 
           <TextInput
@@ -269,7 +277,7 @@ const AddTest = ({route}) => {
           </TouchableOpacity>
           {imageUri && (
             <Image
-              source={{uri: imageUri.uri}}
+              source={{ uri: imageUri.uri }}
               style={styles.imagePreview}
               resizeMode="center"
             />
@@ -329,7 +337,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 16,
-    marginBottom:32
+    marginBottom: 32
   },
   buttonText: {
     color: appColors.white,
