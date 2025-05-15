@@ -97,7 +97,7 @@ const AddTest = ({route}) => {
       } else {
         const payload = {
           title: "Test",
-          subject: subject,
+          subjectId: subject._id,
           date: date,
           classId: selectedClass,
           media: '',
@@ -138,7 +138,7 @@ const AddTest = ({route}) => {
         console.log("Inner")
         const payload = {
           title: "Test",
-          subject: subject,
+          subjectId: subject,
           date: date,
           classId: selectedClass,
           media: responseUploadFile.Key,

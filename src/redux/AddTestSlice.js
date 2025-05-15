@@ -16,7 +16,8 @@ export const hitAddTest = createAsyncThunk("hitAddTest", async (payload) => {
     };
 
     console.log("Config ===> ",config)
-    const url = ApiBaseUrl + classTest;      
+    const url = ApiBaseUrl + classTest;     
+       console.log("url  ===> ",url) 
     const response = await axios.post(url,payload,config);
     console.log("Response Add Test===> ",response.data)
     return response.data;
