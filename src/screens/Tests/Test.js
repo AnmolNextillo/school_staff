@@ -57,6 +57,7 @@ const Test = () => {
           {tests != null &&
             tests.map((item, index) => (
               <TouchableOpacity
+                key={index}
                 style={styles.testList}
                 onPress={() => navigation.navigate('TestDetail', {data: item})}>
                 <Text>

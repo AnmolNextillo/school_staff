@@ -61,7 +61,7 @@ const AnnoucementDetail = ({navigation, route}) => {
             Title: {announcementData != null && announcementData.title}
           </Text>
           <Text style={{fontWeight: '400', marginTop: 8}}>
-            Subject:{' '}
+            Subject:{''}
             <Text style={{fontWeight: '600'}}>
               {announcementData != null && announcementData.subject}
             </Text>

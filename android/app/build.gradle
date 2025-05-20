@@ -82,8 +82,8 @@ android {
         applicationId "com.schoolstaff"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.3"
+        versionCode 8
+        versionName "1.5"
     }
     signingConfigs {
     release {

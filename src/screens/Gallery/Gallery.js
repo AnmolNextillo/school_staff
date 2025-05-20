@@ -16,6 +16,7 @@ import {hitHomework} from '../../redux/GetHomeworkSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import PlusIcon from '../../assets/svg/PlusIcon';
 import {useIsFocused} from '@react-navigation/core';
+import {ImageBaseUrl} from '../../utils/Constants';
 
 const bookingImg = imageName => {
   const images = {
@@ -27,13 +28,11 @@ const bookingImg = imageName => {
   return images[imageName];
 };
 
-
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const IMAGE_SIZE = (width - 72) / 3; // 2 columns + spacing
 
 const Gallery = ({navigation, route}) => {
-  const {classId,data} = route.params;
-
+  const {classId, data} = route.params;
 
   const dispatch = useDispatch();
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
@@ -54,7 +53,7 @@ const Gallery = ({navigation, route}) => {
 
   useEffect(() => {
     // if (responseHomeWork != null && responseHomeWork.status == 1) {
-      setImageData(data.galleryMedia);
+    setImageData(data.galleryMedia);
     // }
   }, []);
 
@@ -84,27 +83,32 @@ const Gallery = ({navigation, route}) => {
             abcdefghijklmnopqrstuvwxyz
           </Text> */}
         <View style={styles.imageChild}>
-          {imageData != null && imageData.length>0 ? (
-             <FlatList
-             data={imageData}
-             keyExtractor={(item, index) => index.toString()}
-             numColumns={3}
-             showsVerticalScrollIndicator={false}
-             renderItem={({ item }) => (
-               <TouchableOpacity style={styles.imageContainer} onPress={()=>navigation.navigate("ImageViewScreen",{image:item})}>
-                 <Image
-                   source={{ uri: item }}
-                   style={styles.imageBox}
-                   resizeMode="cover"
-                 />
-               </TouchableOpacity>
-             )}
-           />
+          {imageData != null && imageData.length > 0 ? (
+            <FlatList
+              data={imageData}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={3}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={styles.imageContainer}
+                  onPress={() =>
+                    navigation.navigate('ImageViewScreen', {
+                      image: ImageBaseUrl + item,
+                    })
+                  }>
+                  <Image
+                    source={{uri: ImageBaseUrl + item}}
+                    style={styles.imageBox}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+              )}
+            />
           ) : (
             <Text>Empty Gallery</Text>
           )}
         </View>
-    
       </View>
     </SafeAreaView>
   );
@@ -124,8 +128,8 @@ const styles = StyleSheet.create({
   imageChild: {
     width: '100%',
     marginTop: 1,
-    padding:16,
-    backgroundColor:appColors.white,
+    padding: 16,
+    backgroundColor: appColors.white,
 
     flex: 1,
     justifyContent: 'center',
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowRadius: 2,
   },
   imageBox: {

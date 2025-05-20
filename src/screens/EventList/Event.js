@@ -17,7 +17,7 @@ import {hitHomework} from '../../redux/GetHomeworkSlice';
 import {useIsFocused} from '@react-navigation/core';
 
 const EventList = ({navigation, route}) => {
-  const {classId} = route.params;
+  const {classId,className} = route.params;
 
   const dispatch = useDispatch();
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
@@ -55,7 +55,7 @@ const EventList = ({navigation, route}) => {
             onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Event</Text>
+          <Text style={styles.headerText}>Event ({className})</Text>
         </View>
         <ScrollView style={{padding: 16}}>
           <View style={styles.container}>
@@ -74,7 +74,7 @@ const EventList = ({navigation, route}) => {
                   <TouchableOpacity
                     style={styles.card}
                     onPress={() => navigation.navigate('EventDetail', {item})}>
-                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.title}>{item.subject}</Text>
                     <Text
                       style={styles.description}
                       numberOfLines={3}
@@ -88,7 +88,7 @@ const EventList = ({navigation, route}) => {
         </ScrollView>
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => navigation.navigate('AddEvent')}>
+          onPress={() => navigation.navigate('AddEvent',{classId:classId,className:className})}>
           {/* <Text style={{color:appColors.white,fontSize:36}}>+</Text> */}
           <PlusIcon />
         </TouchableOpacity>

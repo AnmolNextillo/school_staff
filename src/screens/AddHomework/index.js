@@ -29,10 +29,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import BottomListSubject from '../../component/BottomListSubject';
 import BottomListModal from '../../component/BottomListModal';
 
-const AddHomework = () => {
-  const navigation = useNavigation();
+const AddHomework = ({navigation,route}) => {
   const dispatch = useDispatch();
 
+  const {classId,className} = route.params
   const [announcementData, setAnnouncementData] = useState(null);
   const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
@@ -43,7 +43,7 @@ const AddHomework = () => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
-  const [className, setClassName] = useState('');
+  // const [className, setClassName] = useState('');
   const [tempDate, setTempDate] = useState(new Date());
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuVisibleSub, setMenuVisibleSub] = useState(false);
@@ -74,23 +74,25 @@ const AddHomework = () => {
   // }, [item]);
 
   useEffect(() => {
-    dispatch(hitClassList());
+    // dispatch(hitClassList()); 
+    console.log("Class Id ===> ",classId)
+       const payload = { classId: classId };
+      dispatch(hitSubjectList(payload));
   }, []);
 
-  useEffect(() => {
-    if (selectedClass) {
-      const payload = { classId: selectedClass };
-      dispatch(hitSubjectList(payload));
-    }
-  }, [selectedClass]);
+  // useEffect(() => {
+  //   if (selectedClass) {
+   
+  //   }
+  // }, [selectedClass]);
 
-  useEffect(() => {
-    if (responseClasses && responseClasses.status === 1) {
-      setSelectedClass(responseClasses.data[0]._id);
-      setClassList(responseClasses.data);
-      setClassName(responseClasses.data[0].name);
-    }
-  }, [responseClasses]);
+  // useEffect(() => {
+  //   if (responseClasses && responseClasses.status === 1) {
+  //     setSelectedClass(responseClasses.data[0]._id);
+  //     setClassList(responseClasses.data);
+  //     // setClassName(responseClasses.data[0].name);
+  //   }
+  // }, [responseClasses]);
 
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
@@ -115,16 +117,16 @@ const AddHomework = () => {
   //   }, [responseAddAnnouncement]);
 
   const handleSubmit = () => {
-    if (subject && date && selectedClass) {
+    if (subject && date) {
       if (imageUri != null) {
         dispatch(uploadFile(imageUri));
       } else {
         const payload = {
           title: 'Homework',
-          subject: subject,
+          subject: subject.name,
           date: date,
           description: description,
-          classId: selectedClass,
+          classId: classId,
         };
         console.log('payload data add annouement===>', payload);
         dispatch(addAnnouncement(payload));
@@ -155,18 +157,19 @@ const AddHomework = () => {
     } else {
       if (responseAddAnnouncement != null) {
         handleShowMessage(responseAddAnnouncement.message, 'danger');
+        navigation.goBack()
       }
     }
   }, [responseAddAnnouncement]);
 
   useEffect(() => {
     if (responseUploadFile != null && responseUploadFile.Key != null) {
-      if (subject && date && selectedClass) {
+      if (subject && date) {
         const payload = {
           title: 'Homework',
           subject: subject.name,
           date: date,
-          classId: selectedClass,
+          classId: classId,
           media: responseUploadFile.Key,
           description: description,
         };
@@ -190,7 +193,7 @@ const AddHomework = () => {
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Add Homework</Text>
+          <Text style={styles.headerText}>Add Homework ({className})</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
           {/* <TextInput
@@ -232,7 +235,7 @@ const AddHomework = () => {
             </View>
           )} */}
 
-          <BottomListModal
+          {/* <BottomListModal
             isModalVisible={menuVisible}
             setModalVisible={setMenuVisible}
             data={classList}
@@ -240,7 +243,7 @@ const AddHomework = () => {
             setClassName={setClassName}
             className={className}
             from="class"
-          />
+          /> */}
 
           <BottomListSubject
             isModalVisible={menuVisibleSub}

@@ -30,9 +30,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import BottomListModal from '../../component/BottomListModal';
 
 const AddEvent = ({route}) => {
-  // const item = route?.params?.data;
+
 
   const navigation = useNavigation();
+    const {classId,className} = route?.params;
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
@@ -44,7 +45,7 @@ const AddEvent = ({route}) => {
   const [classList, setClassList] = useState(null);
   const [subjectList, setSubjectList] = useState(null);
   const [imageUri, setImageUri] = useState(null);
-  const [className, setClassName] = useState('');
+  // const [className, setClassName] = useState('');
   const [menuVisible, setMenuVisible] = useState(false);
   const [tempDate, setTempDate] = useState(new Date());
   
@@ -73,23 +74,19 @@ const AddEvent = ({route}) => {
   //   }, [item]);
 
   useEffect(() => {
-    dispatch(hitClassList());
+    // dispatch(hitClassList());
+     const payload = {classId: classId};
+      dispatch(hitSubjectList(payload));
   }, []);
 
-  useEffect(() => {
-    if (selectedClass) {
-      const payload = {classId: selectedClass};
-      dispatch(hitSubjectList(payload));
-    }
-  }, [selectedClass]);
 
-  useEffect(() => {
-    if (responseClasses && responseClasses.status === 1) {
-      setSelectedClass(responseClasses.data[0]._id);
-      setClassList(responseClasses.data);
-      setClassName(responseClasses.data[0].name);
-    }
-  }, [responseClasses]);
+  // useEffect(() => {
+  //   if (responseClasses && responseClasses.status === 1) {
+  //     setSelectedClass(responseClasses.data[0]._id);
+  //     setClassList(responseClasses.data);
+  //     // setClassName(responseClasses.data[0].name);
+  //   }
+  // }, [responseClasses]);
 
   useEffect(() => {
     if (responseSubject && responseSubject.status === 1) {
@@ -108,7 +105,7 @@ const AddEvent = ({route}) => {
   // }, [responseAddAnnouncement])
 
   const handleSubmit = () => {
-    if (subject && date && selectedClass) {
+    if (subject && date) {
       if (imageUri != null) {
         dispatch(uploadFile(imageUri));
       } else {
@@ -117,7 +114,7 @@ const AddEvent = ({route}) => {
           subject: title,
           date: date,
           description: description,
-          classId: selectedClass,
+          classId: classId,
           // type: 2,
         };
         console.log('payload data add annouement===>', payload);
@@ -155,12 +152,12 @@ const AddEvent = ({route}) => {
 
   useEffect(() => {
     if (responseUploadFile != null && responseUploadFile.status === 1) {
-      if (subject && date && selectedClass) {
+      if (subject && date) {
         const payload = {
           title: 'Event',
           subject: title,
           date: date,
-          classId: selectedClass,
+          classId: classId,
           media: responseUploadFile.Key,
           ddescription: description,
         };
@@ -184,12 +181,12 @@ const AddEvent = ({route}) => {
           <Text style={styles.backText} onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Add Event</Text>
+          <Text style={styles.headerText}>Add Event ({className})</Text>
         </View>
         <ScrollView style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder="Title" value={title} onChangeText={setTitle} />
 
-          <BottomListModal
+          {/* <BottomListModal
             isModalVisible={menuVisible}
             setModalVisible={setMenuVisible}
             data={classList}
@@ -197,7 +194,7 @@ const AddEvent = ({route}) => {
             setClassName={setClassName}
             className={className}
             from="class"
-          />
+          /> */}
 
           <View
             style={[

@@ -17,7 +17,7 @@ import {hitHomework} from '../../redux/GetHomeworkSlice';
 import {useIsFocused} from '@react-navigation/core';
 
 const HomeWorkList = ({navigation, route}) => {
-  const {classId} = route.params;
+  const {classId,className} = route.params;
 
   const dispatch = useDispatch();
   const responseHomeWork = useSelector(state => state.getHomeworkReducer.data);
@@ -27,6 +27,7 @@ const HomeWorkList = ({navigation, route}) => {
 
   useEffect(() => {
     if (isFocused) {
+      console.log("Class id ====> ",classId)
       const payload = {
         classId: classId,
         type: 1,
@@ -55,7 +56,7 @@ const HomeWorkList = ({navigation, route}) => {
             onPress={() => navigation.goBack()}>
             Back
           </Text>
-          <Text style={styles.headerText}>Homework</Text>
+          <Text style={styles.headerText}>Homework ({className})</Text>
         </View>
         <ScrollView style={{padding: 16}}>
           <View style={styles.container}>
@@ -89,7 +90,7 @@ const HomeWorkList = ({navigation, route}) => {
         </ScrollView>
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => navigation.navigate('AddHomework')}>
+          onPress={() => navigation.navigate('AddHomework',{classId:classId,className:className})}>
           {/* <Text style={{color:appColors.white,fontSize:36}}>+</Text> */}
           <PlusIcon />
         </TouchableOpacity>
